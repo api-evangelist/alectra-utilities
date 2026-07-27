@@ -1,0 +1,453 @@
+aid: alectra-utilities
+name: Alectra Utilities
+review:
+  question: >-
+    Does Alectra Utilities expose a real, verifiable public API surface, and is
+    its Ontario Green Button obligation an actual implementation or only a
+    compliance claim?
+  answer: >-
+    No public API surface, and the mandate resolves to a claim that could not be
+    independently verified. Alectra operates no developer portal, publishes no
+    API documentation, no base URI, no OpenAPI and no OAuth metadata. Its Green
+    Button Connect My Data obligation under Ontario Regulation 633/21 is
+    demonstrably more than paperwork — a branded customer consent portal and a
+    dedicated third-party registration host are both deployed and answering —
+    but no Green Button endpoint could be confirmed, because every path on the
+    portal host, including a deliberately invented control path, HTTP 302
+    redirects to a customer sign-in. The Green Button Alliance DMD and CMD
+    certification marks appear on Alectra's own page; no public GBA registry
+    listing Alectra could be reached to corroborate them.
+  date: '2026-07-27'
+  reviewer: API Evangelist
+  homeMarket: Canada
+  tier: utility-retailer
+  organizationType: >-
+    Municipally owned local distribution company (LDC). Alectra Utilities
+    Corporation is a wires-and-metering electricity distributor, not a
+    generator and not a market operator, serving roughly one million customers
+    across seventeen Ontario communities. It also performs water and
+    wastewater/stormwater billing for several of those municipalities.
+
+mandate:
+  regime: green-button-ontario
+  regimeName: >-
+    Ontario Regulation 633/21 (Energy Data) made under the Electricity Act,
+    1998. Filed 2 September 2021, in force 1 November 2021. Requires Ontario
+    electric and natural gas utilities to implement Green Button Connect My
+    Data (CMD) and Download My Data (DMD) conforming to the North American
+    Energy Standards Board REQ.21 Energy Services Provider Interface (ESPI)
+    version 3.3, and to obtain Green Button Alliance certification, by an
+    implementation deadline of 1 November 2023. Utilities could apply to the
+    Ontario Energy Board for an extension on grounds set out in the regulation.
+    This is a province-level, standard-specific mandate; Canada has no national
+    equivalent, and electricity regulation is provincial.
+  status: live-claimed-unverified
+  designated: true
+  designationDetail: >-
+    Alectra is covered by O. Reg. 633/21 as an Ontario electricity distributor.
+    Alectra's own Green Button Connect My Data Terms and Conditions of Access
+    and Use cites "Ontario Regulation 633/21" by name as the framework for the
+    service, which is the organization acknowledging the obligation in its own
+    words.
+  claimVsImplementation: >-
+    This is exactly the distinction the study exists to draw, and Alectra lands
+    in the middle band rather than at either end. What was found is stronger
+    than a press release: Alectra has stood up two dedicated, Alectra-branded
+    hosts operated by its data custodian vendor (see infrastructure below),
+    including a third-party registration application. Organizations do not
+    deploy a branded consent portal and a separate onboarding host for a service
+    they have not built. But what was NOT found is any of the evidence that
+    would make this "live-implemented" under the definitions used here — no
+    register entry (Ontario has no CDR-style public register of data holders and
+    the OEB publishes no machine-readable compliance list), no published base
+    URI, no standards-conformant response from any endpoint, and no
+    independently verifiable certification record. Every candidate ESPI path
+    returned a redirect to a login rather than a conformant ESPI response. On
+    that record the honest grade is live-claimed-unverified.
+  whatWouldUpgradeThis: >-
+    Any one of: a published CMD base URI on an Alectra or Savage Data host that
+    answers /espi/1_1/resource/ApplicationInformation with an ESPI Atom feed or
+    a 401 rather than a blanket 302; a reachable Green Button Alliance certified
+    products registry entry naming Alectra Utilities with certification date and
+    ESPI version; or an OEB compliance filing published in machine-readable form.
+  infrastructure:
+  - url: https://alectrautilitiesgbportal.savagedata.com/
+    role: Green Button customer portal / Data Custodian front end
+    httpStatus: 200
+    fetched: '2026-07-27'
+    note: >-
+      Blazor Server application, page title "Alectra Green Button", ASP.NET on
+      Microsoft-IIS/10.0, Alectra logo served from images/alectra-logo.svg,
+      stylesheet Alectra_bootstrap.min.css, front-end assembly named
+      LDCAuthGPFrontEnd. Operated by Savage Data Systems on savagedata.com,
+      not on an Alectra domain.
+  - url: https://alectrautilitiesonboarding.savagedata.com/
+    role: Third-party registration and onboarding
+    httpStatus: 200
+    fetched: '2026-07-27'
+    note: >-
+      Page title "3rdPartyRegistration". Blazor Server, so an anonymous HTTP
+      fetch renders only "An error has occurred. This application may no longer
+      respond until reloaded." — the registration form itself requires a live
+      browser session. No API documentation, no endpoints, no scopes and no
+      OAuth metadata are exposed anonymously.
+  - url: https://alectrautilitiesdataview.savagedata.com/
+    role: Commercial and industrial interval-data portal
+    httpStatus: 302
+    fetched: '2026-07-27'
+    note: >-
+      Redirects to /Identity/Account/Login. A separate Savage Data product from
+      Green Button, offering up to 24 months of consumption, demand profiles and
+      power quality indicators (power factor, kVAR, kVA) with CSV download, for
+      interval-metered customers on the Ontario Electricity Market Price plan.
+      Customer login only, CSV not API, and not a Green Button surface.
+  negativeEvidence:
+    note: >-
+      The single most important probe in this review. The Green Button portal
+      returns HTTP 302 to /Connect/Authorize for EVERY path, so the presence of
+      an ESPI-shaped path proves nothing about whether that resource exists.
+    controlProbe:
+      url: https://alectrautilitiesgbportal.savagedata.com/this-path-does-not-exist-xyz123
+      httpStatus: 302
+      location: >-
+        https://alectrautilitiesgbportal.savagedata.com/Connect/Authorize?returnUrl=...
+      fetched: '2026-07-27'
+      finding: >-
+        A deliberately invented path redirects identically to the real-looking
+        ESPI paths. Therefore the 302 responses at
+        /DataCustodian/espi/1_1/resource/ApplicationInformation,
+        /DataCustodian/espi/1_1/resource/Batch/Bulk/1,
+        /DataCustodian/oauth/authorize and /DataCustodian/oauth/token are
+        evidence of a catch-all auth wall, NOT evidence of those endpoints.
+        They are recorded as unverified.
+  certificationClaim:
+    claimedBy: Alectra Utilities
+    claimedWhere: https://alectrautilities.com/green-button
+    claim: >-
+      The Green Button page displays both the Green Button Certified Download My
+      Data and Green Button Certified Connect My Data marks, and describes the
+      service as government-mandated for Ontario.
+    verified: false
+    verificationAttempts:
+    - url: https://www.greenbuttonalliance.org/certification
+      httpStatus: 200
+      finding: >-
+        Explains the DMD and CMD certification programmes and the trademark
+        rules, but publishes no roster. Neither "Alectra" nor "Savage" appears
+        anywhere in the page text.
+    - url: https://www.greenbuttonalliance.org/canadian-initiatives
+      httpStatus: 200
+      finding: Alectra Utilities is not named on the Canadian initiatives page.
+    - url: https://www.greenbuttonalliance.org/certified-products
+      httpStatus: 404
+    - url: https://www.greenbuttonalliance.org/certified-solutions
+      httpStatus: 404
+    - url: https://greenbuttonontario.ca/
+      httpStatus: 200
+      finding: >-
+        Describes the O. Reg. 633/21 requirement across "50+ Utilities" but
+        lists no compliant utilities, no third parties, no API documentation and
+        no standard version. Alectra is not mentioned.
+    conclusion: >-
+      Under the certification mark rules on the GBA's own page, use of the
+      Certified marks is restricted to implementations that passed GBA
+      certification testing, so the claim is meaningful. It simply could not be
+      corroborated against any reachable public registry, and is recorded as an
+      unverified claim rather than a verified fact.
+
+dataStandard:
+  name: Green Button / NAESB REQ.21 Energy Services Provider Interface (ESPI)
+  version: >-
+    ESPI v3.3, as prescribed by O. Reg. 633/21. Alectra's own pages say
+    "industry-standardized XML format" and reference the Green Button Rules and
+    Standards at greenbuttondata.org without naming a version number; v3.3 comes
+    from the regulation and from the Green Button Alliance, not from Alectra.
+  documents:
+  - title: Green Button API Documentation
+    version: 1.0.0
+    format: OpenAPI 3.0.0
+    paths: 7
+    saved: openapi/alectra-utilities-green-button-espi-openapi.json
+    sourceURL: https://raw.githubusercontent.com/GreenButtonAlliance/OpenAPI-Green-Button-Documentation/main/green-button-openapi.json
+    httpStatus: 200
+    fetched: '2026-07-27'
+    parses: true
+    operations:
+    - GET /espi/1_1/resource/ApplicationInformation
+    - GET /espi/1_1/resource/ApplicationInformation/{applicationInformationId}
+    - GET /espi/1_1/resource/Authorization
+    - GET /espi/1_1/resource/Authorization/{authorizationId}
+    - GET /espi/1_1/resource/Batch/Bulk/{bulkId}
+    - GET /espi/1_1/resource/UsagePoint
+    - GET /espi/1_1/resource/UsagePoint/{usagePointId}
+    declaredServer: https://sandbox.greenbuttonalliance.org:8443/DataCustodian
+    declaredServerNote: >-
+      The Green Button Alliance public sandbox. This is NOT an Alectra host and
+      is not presented as one.
+  provenanceNote: >-
+    Alectra Utilities publishes no first-party OpenAPI, no Swagger, no Postman
+    collection and no API reference of any kind. The single document saved under
+    openapi/ is the Green Button Alliance's own OpenAPI description of the CMD
+    ESPI API, harvested verbatim from the GBA GitHub organisation with an
+    x-provenance / x-source-url / x-harvested / x-harvest-http-status block
+    added to info and nothing else altered. It is included as the contract
+    Alectra is legally obliged to conform to, in the same way the Australian
+    profiles carry the Data Standards Body specifications — the mandate supplies
+    the contract, the utility does not author it. It must not be read as
+    evidence that Alectra serves these paths.
+  otherStandardsFound: >-
+    None. No CDR Consumer Data Standards (not applicable outside Australia), no
+    OpenADR, no IEEE 2030.5, no OCPP or OCPI despite Alectra offering EV
+    charging rate plans, and no IEC CIM 61968/61970 reference was found on any
+    Alectra surface. Ontario's consumer energy data layer is Green Button, and
+    only Green Button.
+
+consumerVsMarketData:
+  consumerDataAPI: true
+  consumerDataDetail: >-
+    Yes, and only because a regulator compelled it. A third party can obtain an
+    individual Alectra customer's electricity usage and billing data through the
+    Green Button Connect My Data service, in standardised Green Button XML,
+    under the customer's authorisation — this is the service O. Reg. 633/21
+    requires and the service Alectra's Terms and Conditions of Access and Use
+    govern. It is documented as a service, not as an API: Alectra publishes no
+    endpoint, no base URI, no scopes, no token lifetimes, no rate limits, no
+    error semantics and no sample payloads. The scope of data is described in
+    prose on alectrautilities.com as energy consumption and billing detail.
+    Download My Data — the customer pulling their own XML from the portal — is a
+    file download, not an API, and is not listed as an API in apis.yml.
+  marketDataOpen: false
+  marketDataDetail: >-
+    Alectra publishes no open grid, market or system data. There is no open-data
+    portal (alectrautilities.com/open-data returns HTTP 404 and the sitemap
+    contains no data-portal page), no outage feed on any Alectra host
+    (outage., outagemap. and stormcenter.alectrautilities.com do not resolve),
+    no load or DER dataset, and no machine-readable capacity data. The one grid
+    dataset Alectra points its customers at — the Centralized Capacity
+    Information Map — is hosted by the Ontario Energy Board at
+    oeb.ca/ontarios-energy-sector/centralized-capacity-information-map, is
+    updated quarterly rather than in real time, is described as indicative only,
+    and is the OEB's, not Alectra's. Wholesale market and system data for
+    Ontario belongs to the IESO. This is the structural point for Canada: the
+    distributor holds the customer relationship and the meter, and the province
+    holds the market data, so the LDC has consumer data it is forced to share
+    and market data it does not possess.
+  theSplit: >-
+    Closed on both sides from a developer's point of view, but for opposite
+    reasons. Consumer data is closed by design — consent plus approval gate it,
+    correctly. Market data is absent rather than withheld, because a municipally
+    owned wires company is not the party that produces it. Nothing on either
+    side is anonymously callable.
+
+accessGate:
+  gate: application-approval
+  gated: true
+  whatADeveloperMustActuallyDo: >-
+    1. Go to https://alectrautilitiesonboarding.savagedata.com/, the third-party
+    registration and onboarding site hosted by Savage Data Systems on Alectra's
+    behalf (a live browser is required; the Blazor app does not render to an
+    anonymous HTTP client). 2. Complete and submit the online third-party
+    registration. 3. Accept the Green Button Connect My Data Terms and
+    Conditions of Access and Use, which bind the third party to the Green Button
+    Rules and Standards published at greenbuttondata.org, to providing a privacy
+    policy and a cybersecurity policy to customers, and to using the data only
+    for purposes expressly identified to and consented to by the customer.
+    4. Be approved by Alectra as an authorised third-party provider. 5. Only
+    then does an individual customer authorise the connection, by selecting the
+    data and time period in the Green Button Portal. There is no accreditation
+    body involved — unlike the Australian CDR, Ontario has no accredited data
+    recipient regime, so approval is Alectra's own commercial and compliance
+    decision rather than a regulator's. There is no free tier, no sandbox key,
+    no self-serve signup, and no way to read the contract before applying.
+  notSelfServe: >-
+    Recorded explicitly because it is easy to mistake a live HTTP 200 for an
+    open door. Both Savage Data hosts answer 200, and neither is a developer
+    portal. One is a customer sign-in, the other is an application form.
+
+authModel:
+  scheme: >-
+    OAuth 2.0 authorization code, as required by the Green Button CMD / ESPI
+    profile — a consumer authorises a registered third party, the third party
+    receives a token scoped to that consumer's authorisation, and reads ESPI
+    Atom resources. This is the standard's model, taken from the harvested GBA
+    OpenAPI, which declares an oauth2 security scheme with authorizationCode and
+    clientCredentials flows.
+  verifiedOnAlectra: false
+  verificationDetail: >-
+    Alectra publishes no OAuth metadata. Probes on 2026-07-27:
+    https://alectrautilities.com/.well-known/openid-configuration returned HTTP
+    403; https://alectrautilitiesgbportal.savagedata.com/.well-known/openid-configuration
+    returned HTTP 200 but served the Blazor SPA shell, not a discovery document,
+    and is therefore the catch-all again rather than a real well-known;
+    /DataCustodian/oauth/authorize and /DataCustodian/oauth/token both returned
+    HTTP 302 to /Connect/Authorize. No client registration surface, no scope
+    list and no token endpoint could be observed anonymously.
+  customerFacingAuth: >-
+    The Green Button Portal signs customers in with account name from their bill
+    plus phone-number validation. The commercial/industrial data-view portal
+    uses email and password registration with account linking.
+
+probes:
+  date: '2026-07-27'
+  method: >-
+    Anonymous curl with redirect following, plus WebFetch for page content. HTTP
+    status recorded for every URL. A bogus control path was used on the portal
+    host specifically to test for catch-all behaviour before trusting any 200 or
+    302.
+  results:
+  - url: https://alectrautilities.com/
+    httpStatus: 200
+  - url: https://alectrautilities.com/green-button
+    httpStatus: 200
+    note: Green Button DMD and CMD explanation, GBA certified marks, portal links.
+  - url: https://alectrautilities.com/green-button-connect-my-data-terms-and-conditions-access-and-use
+    httpStatus: 200
+    note: Cites Ontario Regulation 633/21; sets out third-party obligations.
+  - url: https://alectrautilities.com/green-button-privacy-policy
+    httpStatus: 200
+  - url: https://alectrautilities.com/access-energy-usage-portal
+    httpStatus: 200
+    note: Commercial/industrial interval data via alectrautilitiesdataview.savagedata.com, CSV download.
+  - url: https://alectrautilities.com/oeb-centralized-capacity-information-map
+    httpStatus: 200
+    note: Points to the OEB's map; quarterly, indicative, not machine-readable, not Alectra's.
+  - url: https://alectrautilities.com/developers
+    httpStatus: 404
+  - url: https://alectrautilities.com/api
+    httpStatus: 404
+  - url: https://alectrautilities.com/docs
+    httpStatus: 404
+  - url: https://alectrautilities.com/data
+    httpStatus: 404
+  - url: https://alectrautilities.com/open-data
+    httpStatus: 404
+  - url: https://alectrautilities.com/openapi.json
+    httpStatus: 404
+  - url: https://alectrautilities.com/swagger.json
+    httpStatus: 404
+  - url: https://alectrautilities.com/.well-known/openid-configuration
+    httpStatus: 403
+  - url: https://developer.alectrautilities.com
+    httpStatus: 000
+    note: DNS does not resolve.
+  - url: https://developers.alectrautilities.com
+    httpStatus: 000
+    note: DNS does not resolve.
+  - url: https://docs.alectrautilities.com
+    httpStatus: 000
+    note: DNS does not resolve.
+  - url: https://data.alectrautilities.com
+    httpStatus: 000
+    note: DNS does not resolve.
+  - url: https://api.alectrautilities.com
+    httpStatus: 404
+    note: Resolves, serves the main site's 404.
+  - url: https://alectrautilitiesgbportal.savagedata.com/
+    httpStatus: 200
+  - url: https://alectrautilitiesgbportal.savagedata.com/DataCustodian/espi/1_1/resource/ApplicationInformation
+    httpStatus: 302
+    note: Redirects to /Connect/Authorize. UNVERIFIED — see negativeEvidence.
+  - url: https://alectrautilitiesgbportal.savagedata.com/DataCustodian/espi/1_1/resource/Batch/Bulk/1
+    httpStatus: 302
+    note: Redirects to /Connect/Authorize. UNVERIFIED.
+  - url: https://alectrautilitiesgbportal.savagedata.com/DataCustodian/oauth/authorize
+    httpStatus: 302
+    note: Redirects to /Connect/Authorize. UNVERIFIED.
+  - url: https://alectrautilitiesgbportal.savagedata.com/DataCustodian/oauth/token
+    httpStatus: 302
+    note: Redirects to /Connect/Authorize. UNVERIFIED.
+  - url: https://alectrautilitiesgbportal.savagedata.com/this-path-does-not-exist-xyz123
+    httpStatus: 302
+    note: CONTROL. Identical redirect, proving the host is a catch-all auth wall.
+  - url: https://alectrautilitiesgbportal.savagedata.com/openapi.json
+    httpStatus: 404
+  - url: https://alectrautilitiesgbportal.savagedata.com/swagger.json
+    httpStatus: 404
+  - url: https://alectrautilitiesonboarding.savagedata.com/
+    httpStatus: 200
+    note: Title "3rdPartyRegistration"; Blazor error to anonymous clients.
+  - url: https://alectrautilitiesdataview.savagedata.com/
+    httpStatus: 302
+    note: Redirects to /Identity/Account/Login.
+  - url: https://alectrautilitiesapi.savagedata.com
+    httpStatus: 000
+    note: Guessed API host; DNS does not resolve.
+  - url: https://alectrautilitiesgbapi.savagedata.com
+    httpStatus: 000
+    note: Guessed API host; DNS does not resolve.
+  - url: https://api.savagedata.com
+    httpStatus: 000
+    note: DNS does not resolve.
+  - url: https://developer.savagedata.com
+    httpStatus: 000
+    note: DNS does not resolve.
+  - url: https://raw.githubusercontent.com/GreenButtonAlliance/OpenAPI-Green-Button-Documentation/main/green-button-openapi.json
+    httpStatus: 200
+    note: The one machine-readable contract harvested. Parses as OpenAPI 3.0.0, 7 paths.
+
+findings:
+  summary: >-
+    Alectra Utilities is the Ontario control case for the question of whether a
+    data mandate is the same thing as an implementation. Ontario did what no
+    other Canadian province did and what the United States never did: it made
+    Green Button compulsory by regulation, named the standard (NAESB REQ.21 ESPI
+    v3.3), named the certifier (the Green Button Alliance) and set a date (1
+    November 2023). Alectra responded the way a municipally owned wires company
+    responds to a compliance obligation — it bought the capability. Both public
+    Green Button surfaces run on savagedata.com under Alectra branding, and the
+    Data Custodian software is a vendor product, not an Alectra product. That is
+    not a criticism; it is the shape of the market the regulation created, and
+    the same vendor pattern (Savage Data, ERTH GB Connector) recurs across
+    Ontario LDCs. The consequence for developers is that the mandate produced a
+    service, not a product: there is a documented right to the data and a
+    documented way to apply for it, and there is nothing at all resembling a
+    developer experience — no portal, no reference, no base URI, no scopes, no
+    sandbox, no way to evaluate the contract before applying. Contrast this with
+    Australia, where the same category of obligation produced a public register,
+    a published base URI and anonymously callable discovery endpoints, and the
+    difference between the two regulatory designs becomes measurable rather than
+    rhetorical. The mandate replicated across jurisdictions; the verifiability
+    did not.
+  apisListed: 1
+  apisListedNote: >-
+    One API is listed — the Green Button Connect My Data service — because it is
+    real, regulator-mandated, documented in Alectra's own terms of access, and
+    reachable through a published third-party registration route. It is listed
+    without a baseURL because Alectra publishes none. Download My Data is not
+    listed, because a customer downloading an XML file from a portal is not an
+    API.
+  noFabrication: >-
+    No endpoint, host, scope or specification was invented. Every URL in this
+    file was probed and carries its HTTP status. The only specification saved is
+    the Green Button Alliance's, harvested verbatim and labelled as not
+    Alectra's. Alectra's ESPI path shape is recorded as unverified because the
+    catch-all control probe made it unverifiable.
+
+sources:
+- url: https://alectrautilities.com/green-button
+  type: Documentation
+  note: Alectra's Green Button page — DMD vs CMD, GBA certified marks, both portal links.
+- url: https://alectrautilities.com/green-button-connect-my-data-terms-and-conditions-access-and-use
+  type: TermsOfService
+  note: Names O. Reg. 633/21; sets out the third-party registration and compliance obligations.
+- url: https://alectrautilities.com/access-energy-usage-portal
+  type: Documentation
+  note: Commercial and industrial interval data portal, CSV download, customer login.
+- url: https://news.ontario.ca/en/release/1001086/ontario-helping-energy-customers-save-money-with-green-button
+  type: Reference
+  note: Ontario government announcement of the Green Button requirement, linked from Alectra's page.
+- url: https://www.greenbuttonalliance.org/certification
+  type: Reference
+  note: GBA DMD and CMD certification programme and certified-mark usage rules. No roster published.
+- url: https://www.greenbuttondata.org/cmd.html
+  type: Reference
+  note: The Green Button Rules and Standards that Alectra's terms bind third parties to.
+- url: https://greenbuttonontario.ca/
+  type: Reference
+  note: Ontario Green Button programme site; cites O. Reg. 633/21 and "50+ Utilities"; lists none.
+- url: https://github.com/GreenButtonAlliance/OpenAPI-Green-Button-Documentation
+  type: OpenAPI
+  note: Source of the single harvested machine-readable contract.
+- url: https://www.oeb.ca/ontarios-energy-sector/centralized-capacity-information-map
+  type: Reference
+  note: OEB-hosted quarterly capacity map, the only grid dataset Alectra points at.
