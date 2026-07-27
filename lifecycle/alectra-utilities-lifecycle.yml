@@ -1,0 +1,78 @@
+generated: '2026-07-27'
+method: derived
+source: openapi/alectra-utilities-green-button-espi-openapi.json + live probes 2026-07-27
+versioning:
+  scheme: uri-path
+  current: 1_1
+  docs: null
+  detail: >-
+    Resources are served under /espi/1_1/resource/. The path segment is the ESPI REST
+    resource-path version; the data-standard version is separate and is set by the
+    regulator, not by Alectra — Ontario Regulation 633/21 prescribes NAESB REQ.21 ESPI
+    v3.3, while the harvested Green Button Alliance document describes itself as
+    "ESPI 4.0". Alectra names no version anywhere on its own pages, describing the
+    output only as an "industry-standardized XML format".
+  governed_by: external
+  governance_note: >-
+    Version lifecycle for this contract is owned by NAESB (the standard), the Ontario
+    Ministry of Energy / Ontario Energy Board (the mandate) and the Green Button
+    Alliance (certification) — not by Alectra Utilities, which consumes a vendor
+    implementation from Savage Data Systems. There is no Alectra version policy to
+    find, and there would be no reason for one to exist.
+deprecation:
+  policy_url: null
+  sunset_header: unknown
+  detail: >-
+    No deprecation policy, no RFC 8594 Sunset or Deprecation header support, and no
+    breaking-change notice channel is published by Alectra or documented in the
+    specification. Not found; no Deprecation pointer is emitted.
+deprecated_operations: []
+sla:
+  url: null
+  uptime_target: null
+  detail: >-
+    No API service-level agreement is published. Alectra's Conditions of Service
+    (https://alectrautilities.com/conditions-service, HTTP 200 on 2026-07-27) govern
+    the distribution of electricity, not the availability of a data interface.
+status_page:
+  api_status_page: null
+  api_status_page_found: false
+  customer_outage_map: https://alectrautilities.com/outage-map
+  customer_outage_page: https://alectrautilities.com/outages
+  probes:
+  - {url: 'https://status.alectrautilities.com', status: '000', note: DNS does not resolve}
+  - {url: 'https://alectrautilities.com/outage-map', status: 200}
+  - {url: 'https://alectrautilities.com/outages', status: 200}
+  - {url: 'https://alectrautilities.com/outages-safety', status: 200}
+  detail: >-
+    Alectra runs a customer-facing electricity outage map and outage information
+    pages, which are the operational-status surface for the commodity. There is no
+    status page for the Green Button service or for any API, and status.alectrautilities.com
+    does not resolve. No StatusPage pointer is emitted, because an electricity outage
+    map is not an API status page and claiming it as one would misstate the posture.
+mandate_timeline:
+- date: '2021-09-02'
+  event: Ontario Regulation 633/21 (Energy Data) filed under the Electricity Act, 1998.
+- date: '2021-11-01'
+  event: Regulation in force; Ontario Ministry of Energy announces the Green Button requirement.
+- date: '2023-11-01'
+  event: >-
+    Implementation deadline for Ontario electric and gas utilities to offer Green
+    Button Download My Data and Connect My Data to NAESB REQ.21 ESPI v3.3 and to
+    obtain Green Button Alliance certification. Utilities could apply to the Ontario
+    Energy Board for an extension on grounds set out in the regulation.
+change_communication:
+  changelog: null
+  release_notes: null
+  developer_notice_channel: null
+  customer_news:
+  - {url: 'https://www.alectra.com/news', status: 200, note: Alectra Inc. corporate news, reached by redirect from alectrautilities.com/news}
+  - {url: 'https://www.alectra.com/rss.xml', status: 200, format: RSS 2.0}
+  - {url: 'https://alectrautilities.com/rss.xml', status: 200, format: RSS 2.0}
+  - {url: 'https://alectrautilities.com/newsletter', status: 200, note: AlectraNews quarterly customer newsletter archive back to 2018}
+  detail: >-
+    Corporate and customer news exists and is syndicated as RSS, but there is no
+    developer-facing changelog, release notes, or API change-notice channel of any
+    kind. A third party integrated with Alectra's CMD service would learn about
+    changes through the onboarding relationship, not through a published feed. No
+    ChangeLog pointer is emitted.

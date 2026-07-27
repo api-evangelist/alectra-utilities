@@ -1,0 +1,99 @@
+generated: '2026-07-27'
+method: derived
+source: openapi/alectra-utilities-green-button-espi-openapi.json
+provenance_warning: >-
+  Derived from the Green Button Alliance ESPI OpenAPI harvested into openapi/. These
+  are the standard's conventions, which Alectra is obliged by Ontario Regulation
+  633/21 to conform to; Alectra publishes no developer documentation of its own, so
+  no Alectra-specific convention could be confirmed.
+authentication:
+  style: oauth2
+  flows: [authorizationCode, clientCredentials]
+  token: Bearer
+  detail: authentication/alectra-utilities-authentication.yml
+idempotency:
+  supported: false
+  header: null
+  note: >-
+    No idempotency contract. Every operation in the contract is a GET and therefore
+    naturally safe and repeatable, but no idempotency key, header or replay-window is
+    defined anywhere in the specification or on any Alectra surface. No Idempotency
+    pointer is emitted, because there is no idempotency contract to point at.
+pagination:
+  style: offset
+  parameters:
+  - name: start-index
+    in: query
+    type: integer
+    note: Index of the first result, 1-indexed.
+  - name: max-results
+    in: query
+    type: integer
+    note: Maximum number of results to return.
+  response_fields:
+  - Atom feed entry[] array
+  - Atom feed link[] (rel self / up) for navigation
+  note: >-
+    Collection responses are Atom feeds (RFC 4287); paging is the ESPI/GData-style
+    start-index + max-results pair rather than cursors or Link headers.
+filtering:
+  parameters:
+  - name: published-min
+    in: query
+    type: string
+    format: RFC 3339 instant
+  - name: published-max
+    in: query
+    type: string
+    format: RFC 3339 instant
+  - name: updated-min
+    in: query
+    type: string
+    format: RFC 3339 instant
+  - name: updated-max
+    in: query
+    type: string
+    format: RFC 3339 instant
+  note: Time-window filtering on publication and update timestamps, present on every collection operation.
+field_expansion:
+  supported: true
+  parameter: depth
+  note: >-
+    A `depth` query parameter controls response depth (how far related ESPI resources
+    are inlined into the Atom feed). It is the ESPI analogue of field expansion; the
+    permitted values are not enumerated in the specification.
+metadata:
+  supported: false
+content_negotiation:
+  request: null
+  response_media_types:
+  - application/atom+xml
+  data_format: >-
+    Green Button XML — ESPI resources carried inside Atom entries, namespace
+    http://naesb.org/espi. This is an XML-only contract; no JSON representation is
+    described.
+request_tracing:
+  request_id_header: null
+  note: No correlation or request-id header is documented.
+versioning:
+  scheme: uri-path
+  current: 1_1
+  detail: >-
+    Resource paths are prefixed /espi/1_1/resource/. The path version (1_1) is the
+    ESPI REST resource-path version and is distinct from the ESPI data-standard
+    version — the harvested document's info.description says "ESPI 4.0" while Ontario
+    Regulation 633/21 prescribes NAESB REQ.21 ESPI v3.3. Alectra names no version at
+    all on its own pages ("industry-standardized XML format").
+  lifecycle: lifecycle/alectra-utilities-lifecycle.yml
+error_envelope:
+  format: none
+  detail: errors/alectra-utilities-problem-types.yml
+rate_limiting:
+  documented: false
+  headers: []
+  note: No rate limits, quotas or throttling headers are published by Alectra or by the specification.
+webhooks_or_events:
+  documented: false
+  note: >-
+    No event, streaming or webhook surface. ESPI's asynchronous idiom is the
+    Batch/Bulk pull (HTTP 202 then retrieve), not a push callback.

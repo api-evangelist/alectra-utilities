@@ -1,0 +1,64 @@
+generated: '2026-07-27'
+method: derived
+source: openapi/alectra-utilities-green-button-espi-openapi.json
+format: none
+format_note: >-
+  Not RFC 9457. The Green Button ESPI contract declares bare status codes with no
+  response body schema and no application/problem+json media type; the success media
+  type is application/atom+xml. Alectra Utilities publishes no error reference of any
+  kind, so nothing beyond the specification's declared responses is recorded.
+envelope:
+  media_type: null
+  note: >-
+    No error envelope is described in the specification. ESPI error handling in
+    practice is HTTP status plus, for OAuth failures, the RFC 6749 error object at
+    the token endpoint — neither is documented by Alectra.
+problems:
+- status: 400
+  title: Bad Request
+  description: Bad Request
+  media_type: null
+  source_operations:
+  - findApplicationInformations
+  - getApplicationInformation
+  - findAuthorizations
+  - getAuthorization
+  - downloadBulkData
+  - findUsagePoints
+  - getUsagePoint
+  likely_causes:
+  - Malformed query parameter (published-min/published-max/updated-min/updated-max must be RFC 3339 instants).
+  - Invalid start-index (1-indexed), max-results or depth value.
+  - Unknown resource identifier format on a by-id path.
+- status: 403
+  title: Forbidden
+  description: Forbidden
+  media_type: null
+  source_operations:
+  - findApplicationInformations
+  - getApplicationInformation
+  - findAuthorizations
+  - getAuthorization
+  - downloadBulkData
+  - findUsagePoints
+  - getUsagePoint
+  likely_causes:
+  - Missing, expired or revoked OAuth 2.0 bearer token.
+  - Token scope does not cover the requested resource or customer.
+  - Customer authorisation status is Revoked (0) or Denied (2) on the Authorization resource.
+non_error_statuses:
+- status: 202
+  title: Accepted
+  note: >-
+    ESPI uses 202 for asynchronous/batch preparation — notably on the Bulk transfer
+    operation — so a 202 is a normal outcome, not an error.
+observed_platform_behaviour:
+- host: https://alectrautilitiesgbportal.savagedata.com/
+  behaviour: HTTP 302 redirect to /Connect/Authorize for EVERY path
+  probed: '2026-07-27'
+  note: >-
+    Alectra's Green Button portal host returns a redirect to a customer sign-in for
+    every request, including a deliberately invented control path. An unauthenticated
+    client therefore never observes an ESPI status code at all — it observes an HTML
+    login redirect. This is the single most important error-semantics fact for a
+    would-be integrator and it is recorded because it was probed, not assumed.

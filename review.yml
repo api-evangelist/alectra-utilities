@@ -148,6 +148,40 @@ mandate:
         Describes the O. Reg. 633/21 requirement across "50+ Utilities" but
         lists no compliant utilities, no third parties, no API documentation and
         no standard version. Alectra is not mentioned.
+    - url: https://www.greenbuttonalliance.org/directory-services
+      httpStatus: 200
+      fetched: '2026-07-27'
+      round: enrichment-2026-07-27
+      finding: >-
+        FOUND ON THE SECOND PASS, and it corrects the first pass. A public
+        registry surface does exist: the Green Button Directory, described as
+        three comprehensive searchable listings of Utilities (data custodians),
+        Third-Party App and Service Providers, and Utility-Platform Providers.
+        The first round concluded no registry could be reached; that was wrong,
+        it was reached at the wrong URL (/certified-products and
+        /certified-solutions are both 404; /directory is a 302 to
+        /directory-services). The listings render through a client-side search
+        panel and the GBA states the service is "not approved for automated
+        retrieval, embedding, or screen-scraping of data", so no listing content
+        was harvested. A site-wide search of greenbuttonalliance.org for
+        "Alectra" returned "Found 0 Results".
+    - url: https://www.greenbuttonalliance.org/members/savage-data-systems
+      httpStatus: 200
+      fetched: '2026-07-27'
+      round: enrichment-2026-07-27
+      finding: >-
+        The strongest corroborating evidence found so far, and it sits at the
+        vendor layer rather than the utility layer. Savage Data Systems — the
+        data custodian that operates all three Alectra-branded Green Button hosts
+        — holds a Green Button Alliance member profile, company type "Vendor to
+        Utilities", with CMD Platform Information and DMD Platform Information
+        both listed for Electricity, Natural Gas and Water, and states it has
+        served the Ontario electricity and gas markets since 1998 with
+        relationships across most Ontario LDCs. The profile records no
+        certification date, no ESPI version and no utility customers by name.
+        This does not verify Alectra's claim, but it materially raises its
+        plausibility: the platform Alectra deployed is a GBA-member CMD and DMD
+        platform.
     conclusion: >-
       Under the certification mark rules on the GBA's own page, use of the
       Certified marks is restricted to implementations that passed GBA
@@ -423,7 +457,99 @@ findings:
     Alectra's. Alectra's ESPI path shape is recorded as unverified because the
     catch-all control probe made it unverifiable.
 
+enrichment:
+- round: '2026-07-27'
+  method: >-
+    Second pass under the API Evangelist enrichment pipeline. Re-ran contract
+    discovery against every host (API host root, docs host, vendor hosts and the
+    OpenAPI servers[] host), probed the full /.well-known/ surface with control
+    paths, probed TLS/DNS posture, searched the package registries and the Green
+    Button Alliance GitHub organisation, and derived the spec-grounded artifacts.
+  contractDiscovery:
+    conclusion: >-
+      Confirmed again, harder: Alectra Utilities publishes no machine-readable
+      contract. /openapi.json, /openapi.yaml, /swagger.json,
+      /swagger/v1/swagger.json and /v1/openapi.json all 404 on both Savage Data
+      hosts. /api-docs, /docs and /redoc return HTTP 200 on the onboarding host
+      but serve the Blazor SPA shell — proven by a bogus control path returning
+      the identical 200 — and 302 to the sign-in on the portal host. No GraphQL
+      surface and no MCP server exists on any host. The single machine-readable
+      contract in this repo remains the Green Button Alliance's own.
+    probes:
+    - {url: 'https://alectrautilitiesonboarding.savagedata.com/openapi.json', httpStatus: 404}
+    - {url: 'https://alectrautilitiesonboarding.savagedata.com/swagger.json', httpStatus: 404}
+    - {url: 'https://alectrautilitiesonboarding.savagedata.com/swagger/v1/swagger.json', httpStatus: 404}
+    - {url: 'https://alectrautilitiesonboarding.savagedata.com/api-docs', httpStatus: 200, note: 'Blazor SPA shell, not a spec — control-probed.'}
+    - {url: 'https://alectrautilitiesonboarding.savagedata.com/docs', httpStatus: 200, note: 'Blazor SPA shell.'}
+    - {url: 'https://alectrautilitiesonboarding.savagedata.com/redoc', httpStatus: 200, note: 'Blazor SPA shell.'}
+    - {url: 'https://alectrautilitiesonboarding.savagedata.com/.well-known/this-is-a-bogus-control-xyz123', httpStatus: 200, note: 'CONTROL. Identical SPA shell — proves the 200s above and the .well-known 200s are catch-all.'}
+    - {url: 'https://alectrautilitiesgbportal.savagedata.com/openapi.json', httpStatus: 404}
+    - {url: 'https://alectrautilitiesgbportal.savagedata.com/api-docs', httpStatus: 302}
+    - {url: 'https://www.savagedata.com/openapi.json', httpStatus: 400}
+    - {url: 'https://www.savagedata.com/api-docs', httpStatus: 404}
+    - {url: 'https://sandbox.greenbuttonalliance.org:8443/DataCustodian/espi/1_1/resource/ApplicationInformation', httpStatus: 403, note: 'The GBA sandbox — not Alectra — and notably it returns a real 403 rather than a redirect to a login.'}
+  wellKnown:
+    conclusion: >-
+      Nothing published anywhere. alectrautilities.com returns HTTP 403 for the
+      entire /.well-known/ namespace (a directory-level block, since /llms.txt on
+      the same host returns a normal 404); the portal host 302s everything; the
+      onboarding host returns 200 with the SPA shell for every .well-known path
+      including an invented one. No security.txt, no OAuth or OpenID metadata, no
+      api-catalog, no ai-plugin.json, no llms.txt.
+    detail: well-known/alectra-utilities-well-known.yml
+  githubOrganization:
+    url: https://github.com/alectrautilities
+    httpStatus: 200
+    finding: >-
+      A personal GitHub account, not an organisation: 0 public repositories, no
+      name, company, blog or bio, created 2025-04-04. It is not evidence of an
+      Alectra engineering presence and no GitHubOrganization pointer was wired.
+  domainSecurity:
+    finding: >-
+      The regulated data surface has a weaker posture than the domain Alectra
+      controls. alectrautilities.com has DNSSEC, CAA pinning (Sectigo and Let's
+      Encrypt), SPF, DMARC p=reject and HSTS max-age 31622400. savagedata.com,
+      which hosts all three Alectra Green Button surfaces, has no DNSSEC, no CAA,
+      DMARC p=quarantine and HSTS max-age 2592000.
+    detail: security/alectra-utilities-domain-security.yml
+  securityPrograms:
+    finding: >-
+      No vulnerability disclosure policy, no bug bounty, no security.txt and no
+      trust centre on any Alectra or Savage Data host. No published security
+      certification (SOC 2, ISO 27001, PCI DSS, HIPAA, FedRAMP). The only
+      third-party attestation claimed anywhere is Green Button Alliance
+      certification, which is data-standard conformance rather than a security
+      compliance programme.
+  packages:
+    finding: >-
+      No first-party client library in any registry, in any language. The Ruby
+      gem "greenbutton" (v0.0.1, 2014) is a community parser, and the OpenESPI
+      reference implementations belong to the Green Button Alliance. Recorded
+      with official:false so they are never read as Alectra SDKs.
+  pointerDiscipline: >-
+    Artifacts were wired into apis.yml only where the underlying thing genuinely
+    exists. Deliberately NOT wired, despite each being a scored check: WellKnown
+    (nothing published), StatusPage (an electricity outage map is not an API
+    status page, and status.alectrautilities.com does not resolve), Deprecation
+    (no policy), Security / VulnerabilityDisclosure (none found), Compliance and
+    TrustCenter (no published programme), SDKs (no first-party library),
+    Idempotency (no idempotency contract — every operation is a GET), MCPServer
+    (the mcp/ file is an explicitly labelled derived candidate, not a deployed
+    server), AsyncAPI and Webhooks (no event surface exists), ChangeLog (customer
+    news exists, a developer changelog does not). Scoring this provider higher by
+    pointing at things it does not publish would invert the finding this repo
+    exists to record.
+
 sources:
+- url: https://www.greenbuttonalliance.org/directory-services
+  type: Reference
+  note: The Green Button Directory of Utilities, Third Parties and Utility-Platform Providers — the registry surface the first round missed.
+- url: https://www.greenbuttonalliance.org/members/savage-data-systems
+  type: Reference
+  note: GBA member profile for Alectra's data custodian vendor; CMD and DMD platform information listed.
+- url: https://greenbuttonalliance.github.io/OpenESPI-GreenButton-API-Documentation/
+  type: Documentation
+  note: The Green Button Developers Guide — the standard's developer documentation, which Alectra does not mirror or link.
 - url: https://alectrautilities.com/green-button
   type: Documentation
   note: Alectra's Green Button page — DMD vs CMD, GBA certified marks, both portal links.

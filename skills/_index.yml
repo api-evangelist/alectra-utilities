@@ -1,0 +1,23 @@
+generated: '2026-07-27'
+method: generated
+source: openapi/alectra-utilities-green-button-espi-openapi.json
+note: >-
+  Every operation id referenced by these skills was grepped out of the Green Button
+  Alliance ESPI specification harvested into openapi/ — the contract Ontario
+  Regulation 633/21 obliges Alectra Utilities to implement. Alectra publishes no
+  specification, no base URI and no developer documentation of its own, so each skill
+  states plainly that the live contract can only be confirmed after third-party
+  registration and approval. Nothing is invented.
+skills:
+- file: alectra-utilities-verify-registration.md
+  name: Verify your third-party registration with Alectra's Green Button data custodian
+  api: openapi/alectra-utilities-green-button-espi-openapi.json
+  operations: [findApplicationInformations, getApplicationInformation]
+- file: alectra-utilities-read-customer-usage.md
+  name: Read an authorised Alectra customer's Green Button usage data
+  api: openapi/alectra-utilities-green-button-espi-openapi.json
+  operations: [findAuthorizations, getAuthorization, findUsagePoints, getUsagePoint]
+- file: alectra-utilities-bulk-transfer.md
+  name: Pull a Green Button bulk transfer from Alectra's data custodian
+  api: openapi/alectra-utilities-green-button-espi-openapi.json
+  operations: [downloadBulkData]

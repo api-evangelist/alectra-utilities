@@ -1,0 +1,58 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for Alectra Utilities Green Button Connect My Data
+  version: 1.0.0
+extends: openapi/alectra-utilities-green-button-espi-openapi.json
+x-generated: '2026-07-27'
+x-method: generated
+x-note: >-
+  Our enhancements only. The underlying document is the Green Button Alliance's own
+  ESPI description, harvested verbatim, and is never mutated. Every value asserted
+  below was probed or derived on 2026-07-27 and is recorded in review.yml and the
+  sibling artifacts.
+actions:
+- target: $.info
+  update:
+    x-apievangelist-provider: Alectra Utilities
+    x-apievangelist-provider-slug: alectra-utilities
+    x-apievangelist-spec-authored-by: Green Button Alliance
+    x-apievangelist-spec-is-provider-authored: false
+    x-apievangelist-access-gate: application-approval
+    x-apievangelist-self-serve: false
+    x-apievangelist-mandate: Ontario Regulation 633/21 (Energy Data)
+    x-apievangelist-mandate-status: live-claimed-unverified
+    x-apievangelist-base-url-published: false
+- target: $.servers
+  update:
+    x-apievangelist-servers-note: >-
+      The declared server is the Green Button Alliance public sandbox
+      (https://sandbox.greenbuttonalliance.org:8443/DataCustodian), not an Alectra
+      endpoint. Alectra publishes no base URI; the production CMD endpoint is
+      disclosed to third parties only after registration and approval at
+      https://alectrautilitiesonboarding.savagedata.com/. Alectra's Green Button
+      portal host exposes the same /DataCustodian/espi/1_1/resource/ path shape but
+      HTTP 302 redirects every path — including a bogus control path — to
+      /Connect/Authorize, so no Alectra endpoint could be confirmed.
+- target: $.components.securitySchemes.oauth2
+  update:
+    x-apievangelist-scopes-published: false
+    x-apievangelist-oauth-metadata-published: false
+    x-apievangelist-note: >-
+      Both flows carry an empty scopes map in the source document and no operation
+      attaches a named scope. Alectra publishes no OAuth discovery document: probes on
+      2026-07-27 returned HTTP 403 for the entire /.well-known/ namespace on
+      alectrautilities.com, and catch-all responses on both Savage Data hosts.
+- target: $.tags
+  update:
+    x-apievangelist-artifacts:
+      authentication: authentication/alectra-utilities-authentication.yml
+      scopes: scopes/alectra-utilities-scopes.yml
+      conventions: conventions/alectra-utilities-conventions.yml
+      errors: errors/alectra-utilities-problem-types.yml
+      conformance: conformance/alectra-utilities-conformance.yml
+      lifecycle: lifecycle/alectra-utilities-lifecycle.yml
+      data_model: data-model/alectra-utilities-data-model.yml
+      well_known: well-known/alectra-utilities-well-known.yml
+      domain_security: security/alectra-utilities-domain-security.yml
+      mcp: mcp/alectra-utilities-mcp.yml
+      skills: skills/_index.yml

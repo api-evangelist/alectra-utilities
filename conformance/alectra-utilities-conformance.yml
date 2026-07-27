@@ -1,0 +1,141 @@
+generated: '2026-07-27'
+method: derived
+source: >-
+  openapi/alectra-utilities-green-button-espi-openapi.json, review.yml probes, and
+  searched Green Button Alliance / Ontario regulatory surfaces, 2026-07-27
+scope_note: >-
+  Conformance here is asserted against the CONTRACT Alectra is obliged to implement,
+  not against an observed Alectra endpoint. No Alectra endpoint could be exercised
+  anonymously — every path on the Green Button portal host returns HTTP 302 to a
+  customer sign-in, including a bogus control path — so every row below is marked
+  with what it is evidenced by. Nothing is asserted as verified against Alectra.
+standards:
+- id: green-button-espi
+  name: Green Button / NAESB REQ.21 Energy Services Provider Interface
+  conforms: claimed
+  version_required: ESPI v3.3 (prescribed by O. Reg. 633/21)
+  evidence: >-
+    Alectra's Green Button page displays the Green Button Certified Download My Data
+    and Connect My Data marks and describes the service as government-mandated; its
+    Green Button Connect My Data Terms and Conditions of Access and Use cite Ontario
+    Regulation 633/21 by name. Certification could not be corroborated against a
+    public registry naming Alectra.
+  verified: false
+- id: ontario-reg-633-21
+  name: Ontario Regulation 633/21 (Energy Data), Electricity Act 1998
+  conforms: designated
+  evidence: >-
+    Alectra is an Ontario electricity distributor and is therefore covered by the
+    regulation; Alectra acknowledges the obligation in its own terms of access.
+    Ontario publishes no CDR-style register of data holders and the OEB publishes no
+    machine-readable compliance list, so there is no register entry to cite.
+  verified: false
+- id: oauth2
+  name: OAuth 2.0 (RFC 6749)
+  conforms: true
+  evidence: >-
+    The Green Button CMD contract declares an oauth2 securityScheme with
+    authorizationCode and clientCredentials flows, applied to every operation. Alectra
+    publishes no OAuth metadata of its own; probes of /DataCustodian/oauth/authorize
+    and /DataCustodian/oauth/token on the portal host returned the catch-all 302.
+  verified: false
+- id: rfc4287-atom
+  name: Atom Syndication Format (RFC 4287)
+  conforms: true
+  evidence: >-
+    All ESPI resources are carried as Atom feeds and entries — components.schemas
+    declares AtomFeed, AtomEntry, AtomLink and AtomContent in the
+    http://www.w3.org/2005/Atom namespace, and every success response is
+    application/atom+xml.
+- id: rfc3339-timestamps
+  name: RFC 3339 date/time
+  conforms: true
+  evidence: >-
+    published-min/published-max/updated-min/updated-max query parameters are declared
+    as RFC 3339 instants on every collection operation.
+- id: rfc9457-problem-details
+  name: RFC 9457 Problem Details for HTTP APIs
+  conforms: false
+  evidence: >-
+    No application/problem+json media type and no error response schema anywhere in
+    the contract; 400 and 403 are declared as bare status codes.
+- id: rfc9116-security-txt
+  name: RFC 9116 security.txt
+  conforms: false
+  evidence: >-
+    Probed 2026-07-27 on all four hosts. alectrautilities.com returns HTTP 403 for the
+    whole /.well-known/ namespace; the vendor hosts return 404 or a catch-all HTML
+    shell. See well-known/alectra-utilities-well-known.yml.
+- id: rfc8414-oauth-metadata
+  name: RFC 8414 OAuth 2.0 Authorization Server Metadata
+  conforms: false
+  evidence: No discovery document on any host; the 200s on the onboarding host are a Blazor SPA shell (control-probed).
+- id: openid-connect-discovery
+  name: OpenID Connect Discovery
+  conforms: false
+  evidence: Not published; alectrautilities.com/.well-known/openid-configuration returns HTTP 403.
+- id: rfc8594-sunset-header
+  name: RFC 8594 Sunset HTTP Header
+  conforms: false
+  evidence: No deprecation or sunset signalling documented.
+- id: openapi
+  name: OpenAPI Specification
+  conforms: false
+  evidence: >-
+    Alectra publishes no OpenAPI. The document in openapi/ is the Green Button
+    Alliance's, harvested verbatim from the GBA GitHub organisation and labelled as
+    not Alectra's.
+- id: iso-8601
+  name: ISO 8601
+  conforms: true
+  evidence: Atom published/updated elements are declared as date-time (ISO 8601).
+not_applicable:
+- {id: cdr-consumer-data-standards, reason: Australian regime; not applicable in Ontario.}
+- {id: fdx, reason: Financial Data Exchange is a banking standard; not applicable to an electricity distributor.}
+- {id: openadr, reason: No demand-response API surface was found on any Alectra host.}
+- {id: ieee-2030-5, reason: No smart-energy-profile surface was found.}
+- {id: ocpp, reason: No EV-charging protocol surface was found, despite Alectra offering EV charging rate plans.}
+- {id: ocpi, reason: No EV-roaming surface was found.}
+- {id: iec-cim-61968-61970, reason: No CIM reference found on any Alectra surface.}
+- {id: fhir, reason: Healthcare standard; not applicable.}
+- {id: fapi, reason: Financial-grade API profile; not applicable.}
+- {id: scim, reason: No identity-provisioning surface.}
+compliance_program:
+  published: false
+  certifications: []
+  trust_center: null
+  detail: >-
+    No SOC 2, ISO 27001, PCI DSS, HIPAA or FedRAMP claim, no trust centre and no
+    published security-compliance programme was found on any Alectra or Savage Data
+    host (probe-security-programs.py, 2026-07-27: vdp=none trust=none). The only
+    third-party attestation Alectra claims is Green Button Alliance certification of
+    the Green Button service, which is a data-standard conformance certification
+    rather than a security-compliance programme, and which could not be corroborated
+    against a public registry entry naming Alectra. No Compliance pointer is emitted.
+registry_evidence:
+  green_button_directory:
+    url: https://www.greenbuttonalliance.org/directory-services
+    status: 200
+    fetched: '2026-07-27'
+    finding: >-
+      The Green Button Alliance does operate a public "Green Button Directory" of
+      Utilities (data custodians), Third-Party App Providers and Utility-Platform
+      Providers — a registry surface the previous round did not locate. The listings
+      are delivered through a client-side search panel, and the GBA states the service
+      is "not approved for automated retrieval, embedding, or screen-scraping", so no
+      listing data is copied here. A site-wide search of greenbuttonalliance.org for
+      "Alectra" returned "Found 0 Results" on 2026-07-27.
+  vendor_member_profile:
+    url: https://www.greenbuttonalliance.org/members/savage-data-systems
+    status: 200
+    fetched: '2026-07-27'
+    finding: >-
+      Savage Data Systems — the data custodian vendor that operates all three Alectra
+      Green Button hosts — has a Green Button Alliance member profile, company type
+      "Vendor to Utilities", with CMD Platform Information and DMD Platform
+      Information both listed for Electricity, Natural Gas and Water. This is the
+      first corroborating link found for the certification chain: it confirms the
+      vendor is a GBA member with CMD and DMD platforms, though the profile itself
+      states no certification date or ESPI version, and names no utility customers.
+      Alectra's certification claim therefore remains uncorroborated at the utility
+      level, but is now materially more plausible at the platform level.

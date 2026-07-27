@@ -1,0 +1,70 @@
+generated: '2026-07-27'
+method: derived
+source: openapi/alectra-utilities-green-button-espi-openapi.json
+provenance_warning: >-
+  Derived from the Green Button Alliance OpenAPI harvested into openapi/, NOT from
+  an Alectra-published authentication reference. Alectra Utilities publishes no OAuth
+  metadata, no client registration surface, no scope list and no token endpoint. The
+  authorization and token URLs below are the Green Button Alliance public sandbox's,
+  carried verbatim from the spec's securitySchemes; Alectra's own endpoints are
+  disclosed to third parties only after registration and approval. Probes on
+  2026-07-27 recorded https://alectrautilities.com/.well-known/openid-configuration
+  HTTP 403 and every /DataCustodian/oauth/* path on
+  https://alectrautilitiesgbportal.savagedata.com/ HTTP 302 to /Connect/Authorize
+  (a catch-all auth wall confirmed with a bogus control path) — see review.yml.
+summary:
+  types:
+  - oauth2
+  api_key_in: []
+  oauth2_flows:
+  - authorizationCode
+  - clientCredentials
+  applied_globally: true
+  scopes_declared: 0
+schemes:
+- name: oauth2
+  type: oauth2
+  sources:
+  - openapi/alectra-utilities-green-button-espi-openapi.json
+  flows:
+  - flow: authorizationCode
+    authorizationUrl: https://sandbox.greenbuttonalliance.org:8443/oauth/authorize
+    tokenUrl: https://sandbox.greenbuttonalliance.org:8443/oauth/token
+    scope_count: 0
+    note: >-
+      The Green Button Connect My Data consent flow — a retail customer authorises a
+      registered, approved third party to receive their ESPI resources. The scopes
+      map is empty in the source spec; ESPI's scope grammar is not enumerated there
+      and Alectra publishes none, so none are recorded.
+  - flow: clientCredentials
+    tokenUrl: https://sandbox.greenbuttonalliance.org:8443/oauth/token
+    scope_count: 0
+    note: >-
+      Used by a registered third party for its own ApplicationInformation and bulk
+      registration-level calls rather than for customer data.
+  applied_to_operations: all
+token:
+  type: Bearer
+  carrier: Authorization header
+  evidence: >-
+    components.schemas.Authorization declares token_type (Bearer), expires_at,
+    grant_type, scope, resourceURI and authorizationURI — the ESPI authorization
+    record a data custodian returns to an approved third party.
+onboarding:
+  self_serve: false
+  gate: application-approval
+  registration_url: https://alectrautilitiesonboarding.savagedata.com/
+  terms_url: https://alectrautilities.com/green-button-connect-my-data-terms-and-conditions-access-and-use
+  steps:
+  - Register as a third party at the Alectra onboarding site (hosted by Savage Data Systems).
+  - Accept the Green Button Connect My Data Terms and Conditions of Access and Use.
+  - Be approved by Alectra as an authorised third-party provider.
+  - A customer then authorises the connection in the Green Button portal, selecting data and period.
+  accreditation_body: none
+  note: >-
+    Ontario has no accredited data recipient regime (unlike the Australian CDR), so
+    approval is Alectra's own commercial and compliance decision.
+customer_facing_auth:
+  green_button_portal: Account name from the bill plus phone-number validation.
+  commercial_industrial_dataview: Email and password registration with account linking.
+verified_on_alectra: false

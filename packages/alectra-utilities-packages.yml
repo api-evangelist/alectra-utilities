@@ -1,0 +1,93 @@
+generated: '2026-07-27'
+method: searched
+source: >-
+  npm, PyPI, RubyGems and the GreenButtonAlliance GitHub organisation, probed
+  2026-07-27; plus every Alectra Utilities public surface.
+first_party_packages: []
+first_party_finding: >-
+  NONE. Alectra Utilities publishes no client library, no SDK and no package in any
+  registry, in any language. There is no Alectra developer surface for one to be
+  linked from, and github.com/alectrautilities is an empty personal account (0 public
+  repositories, no name, company or bio, created 2025-04-04) rather than a company
+  organisation — so no GitHubOrganization pointer is wired either. No `SDKs` pointer
+  is emitted, because there is no first-party SDK.
+registries_probed:
+- {registry: npm, query: greenbutton, result: 404}
+- {registry: pypi, query: greenbutton, result: 404}
+- {registry: pypi, query: greenbutton-parser, result: 404}
+- {registry: rubygems, query: greenbutton, result: 200}
+- {registry: github, query: alectrautilities, result: 'user account, 0 repositories'}
+ecosystem_packages:
+  note: >-
+    Not Alectra's, and not endorsed by Alectra. These are the Green Button / NAESB
+    ESPI reference implementations and parsers an approved third party would actually
+    reach for when integrating with a data custodian such as Alectra's. Recorded with
+    official:false and first_party:false so they are never mistaken for provider SDKs.
+  packages:
+  - language: java
+    registry: github
+    name: OpenESPI-ThirdParty-java
+    url: https://github.com/GreenButtonAlliance/OpenESPI-ThirdParty-java
+    description: Spring Framework implementation of a Green Button Third Party OpenESPI application.
+    publisher: Green Button Alliance
+    official: false
+    first_party: false
+  - language: java
+    registry: github
+    name: OpenESPI-DataCustodian-java
+    url: https://github.com/GreenButtonAlliance/OpenESPI-DataCustodian-java
+    description: Spring Framework implementation of a Green Button Data Custodian OpenESPI application (the custodian side, i.e. what Alectra's vendor operates).
+    publisher: Green Button Alliance
+    official: false
+    first_party: false
+  - language: java
+    registry: github
+    name: OpenESPI-Common-java
+    url: https://github.com/GreenButtonAlliance/OpenESPI-Common-java
+    description: Common library shared by the Green Button Third Party and Data Custodian implementations.
+    publisher: Green Button Alliance
+    official: false
+    first_party: false
+  - language: python
+    registry: github
+    name: OpenESPI-ThirdParty-python
+    url: https://github.com/GreenButtonAlliance/OpenESPI-ThirdParty-python
+    description: Third-party library for Python applications.
+    publisher: Green Button Alliance
+    official: false
+    first_party: false
+  - language: python
+    registry: github
+    name: greenbutton-python
+    url: https://github.com/GreenButtonAlliance/greenbutton-python
+    description: Python parser for ESPI ("Green Button") files.
+    publisher: Green Button Alliance
+    official: false
+    first_party: false
+  - language: ruby
+    registry: github
+    name: OpenESPI-ThirdParty-ruby
+    url: https://github.com/GreenButtonAlliance/OpenESPI-ThirdParty-ruby
+    description: Third-party library for Ruby programmers.
+    publisher: Green Button Alliance
+    official: false
+    first_party: false
+  - language: ruby
+    registry: rubygems
+    name: greenbutton
+    url: https://rubygems.org/gems/greenbutton
+    install: gem install greenbutton
+    version: 0.0.1
+    released: '2014-03-17'
+    description: Community Ruby parser that builds objects from a Green Button data file. Unmaintained since 2014; recorded for completeness, not recommended.
+    publisher: Charles Worthington, Eric Hulburd
+    official: false
+    first_party: false
+  - language: javascript
+    registry: github
+    name: green-button-grapher
+    url: https://github.com/GreenButtonAlliance/green-button-grapher
+    description: JavaScript app that parses and displays Green Button XML.
+    publisher: Green Button Alliance
+    official: false
+    first_party: false

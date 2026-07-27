@@ -1,0 +1,160 @@
+generated: '2026-07-27'
+method: derived
+source: openapi/alectra-utilities-green-button-espi-openapi.json
+provenance_warning: >-
+  Derived from the Green Button Alliance ESPI contract harvested into openapi/, which
+  is the data model Ontario Regulation 633/21 obliges Alectra to expose — not a model
+  Alectra documents. Only entities and links present in that document are recorded.
+format:
+  serialization: XML
+  envelope: Atom (RFC 4287) feeds and entries
+  namespaces:
+    espi: http://naesb.org/espi
+    atom: http://www.w3.org/2005/Atom
+  note: >-
+    Every ESPI resource is delivered inside an Atom entry's content element; the Atom
+    layer supplies identity (entry id), timestamps (published, updated) and traversal
+    (link rel=self / rel=up). There is no JSON representation.
+entities:
+- name: ApplicationInformation
+  description: >-
+    Registration record for a third-party application requesting access to Data
+    Custodian services. Carries the OAuth client identity the third party receives
+    after Alectra approves its registration.
+  key_fields:
+  - dataCustodianId
+  - client_id
+  - client_name
+  - client_secret
+  - redirect_uri[]
+  - scope[]
+  - grant_types[]
+  - thirdPartyApplicationType
+  - thirdPartyApplicationStatus
+  - dataCustodianApplicationStatus
+  operations: [findApplicationInformations, getApplicationInformation]
+- name: Authorization
+  description: >-
+    A permission granted by a retail customer for access to their data — the consent
+    record at the centre of Connect My Data. Carries the negotiated scope and the URIs
+    the third party must follow to reach the authorised data.
+  key_fields:
+  - status
+  - expires_at
+  - grant_type
+  - scope
+  - token_type
+  - resourceURI
+  - authorizationURI
+  - customerResourceURI
+  enumerations:
+    status: {0: Revoked, 1: Active, 2: Denied}
+  operations: [findAuthorizations, getAuthorization]
+- name: UsagePoint
+  description: >-
+    A logical point on the network where consumption or production is measured or
+    estimated — for a distributor, the metered service point behind a customer account.
+  key_fields:
+  - roleFlags
+  - ServiceCategory
+  - status
+  - isSdp
+  - isVirtual
+  - connectionState
+  enumerations:
+    ServiceCategory: {0: electricity, 1: gas, 2: water}
+    status: {0: 'off', 1: 'on'}
+  operations: [findUsagePoints, getUsagePoint]
+- name: Batch/Bulk
+  description: >-
+    Bulk transfer of ESPI resources for an approved third party, addressed by bulkId.
+    The asynchronous idiom of the standard — HTTP 202 Accepted then retrieval.
+  key_fields: [bulkId]
+  operations: [downloadBulkData]
+  schema: AtomFeed
+- name: AtomFeed
+  description: Atom envelope for collection responses.
+  key_fields: [id, title, updated, 'link[]', 'entry[]']
+  kind: envelope
+- name: AtomEntry
+  description: Atom envelope for a single resource.
+  key_fields: [id, title, published, updated, 'link[]', content]
+  kind: envelope
+- name: AtomLink
+  description: Atom link element (href, rel, type) — carries ESPI resource traversal.
+  kind: envelope
+- name: AtomContent
+  description: Atom content element wrapping the ESPI XML payload.
+  kind: envelope
+relationships:
+- from: AtomFeed
+  to: AtomEntry
+  type: has_many
+  via: entry
+  evidence: $ref
+- from: AtomFeed
+  to: AtomLink
+  type: has_many
+  via: link
+  evidence: $ref
+- from: AtomEntry
+  to: AtomLink
+  type: has_many
+  via: link
+  evidence: $ref
+- from: AtomEntry
+  to: AtomContent
+  type: has_one
+  via: content
+  evidence: $ref
+- from: AtomEntry
+  to: ApplicationInformation
+  type: has_one
+  via: content
+  evidence: response schema of getApplicationInformation
+- from: AtomEntry
+  to: Authorization
+  type: has_one
+  via: content
+  evidence: response schema of getAuthorization
+- from: AtomEntry
+  to: UsagePoint
+  type: has_one
+  via: content
+  evidence: response schema of getUsagePoint
+- from: Authorization
+  to: ApplicationInformation
+  type: belongs_to
+  via: grant_type / client credentials issued from the ApplicationInformation record
+  evidence: id-reference by semantics
+  confidence: medium
+- from: Authorization
+  to: UsagePoint
+  type: has_many
+  via: resourceURI
+  evidence: >-
+    Authorization.resourceURI is the URI the third party follows to reach the
+    authorised customer's ESPI resources, which are rooted at UsagePoint.
+  confidence: high
+- from: ApplicationInformation
+  to: Authorization
+  type: has_many
+  via: client_id
+  evidence: id-reference by semantics
+  confidence: medium
+model_gaps:
+  note: >-
+    The harvested contract stops at UsagePoint. The ESPI resources that actually carry
+    consumption — MeterReading, ReadingType, IntervalBlock, IntervalReading,
+    ElectricPowerUsageSummary, UsageSummary and the customer/PII resources reached via
+    customerResourceURI — are part of NAESB REQ.21 but are NOT described in this
+    document, and Alectra describes none of them. They are deliberately not modelled
+    here rather than assumed.
+  missing_entities_named_by_the_standard_but_not_described_here:
+  - MeterReading
+  - ReadingType
+  - IntervalBlock
+  - IntervalReading
+  - UsageSummary
+  - Customer / CustomerAccount / CustomerAgreement
+render: null

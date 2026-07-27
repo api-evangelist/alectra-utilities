@@ -1,0 +1,73 @@
+generated: '2026-07-27'
+method: probed
+source: live anonymous HTTP probes, 2026-07-27
+finding: >-
+  NOTHING WAS FOUND. No /.well-known/ discovery document of any kind is published on
+  any Alectra Utilities host or on any of the three Savage Data Systems hosts that
+  operate Alectra's Green Button surfaces. This file records the probe, including the
+  control probes that prove the two HTTP 200 and HTTP 302 families below are
+  catch-all application behaviour rather than discovery responses. No `WellKnown`
+  pointer is wired into apis.yml, because there is no well-known document to point at.
+control_probes:
+- host: https://alectrautilitiesonboarding.savagedata.com
+  path: /.well-known/this-is-a-bogus-control-xyz123
+  status: 200
+  content_type: text/html
+  finding: >-
+    A deliberately invented .well-known path returns HTTP 200 with the identical
+    Blazor SPA shell (title "3rdPartyRegistration", ThirdPartyRegistration.styles.css,
+    Microsoft-IIS/10.0, ASP.NET) as every real .well-known path on this host.
+    Therefore the 200s recorded below on this host are NOT discovery documents.
+- host: https://alectrautilitiesgbportal.savagedata.com
+  path: /this-path-does-not-exist-xyz123
+  status: 302
+  location: /Connect/Authorize
+  finding: >-
+    Confirmed in the 2026-07-27 review: every path on the Green Button portal host,
+    real or invented, HTTP 302 redirects to a customer sign-in. The 302s below are a
+    catch-all auth wall, not evidence that those documents exist.
+hosts:
+- host: https://alectrautilities.com
+  role: Corporate website
+  documents:
+  - {path: /.well-known/security.txt, status: 403}
+  - {path: /.well-known/openid-configuration, status: 403}
+  - {path: /.well-known/oauth-authorization-server, status: 403}
+  - {path: /.well-known/oauth-protected-resource, status: 403}
+  - {path: /.well-known/api-catalog, status: 403}
+  - {path: /.well-known/ai-plugin.json, status: 403}
+  - {path: /llms.txt, status: 404}
+  note: >-
+    The entire /.well-known/ namespace returns HTTP 403 from the edge (a blanket WAF
+    or platform denial), while /llms.txt returns a normal 404 — so the 403s are a
+    directory-level block rather than per-document responses. Either way, no RFC 9116
+    security.txt is reachable and no security contact is published there.
+- host: https://alectrautilitiesgbportal.savagedata.com
+  role: Green Button customer portal / Data Custodian front end (vendor-hosted)
+  documents:
+  - {path: /.well-known/security.txt, status: 404}
+  - {path: /.well-known/openid-configuration, status: 302, note: catch-all redirect to /Connect/Authorize}
+  - {path: /.well-known/oauth-authorization-server, status: 302, note: catch-all redirect}
+  - {path: /.well-known/oauth-protected-resource, status: 302, note: catch-all redirect}
+  - {path: /.well-known/api-catalog, status: 302, note: catch-all redirect}
+  - {path: /.well-known/ai-plugin.json, status: 404}
+  - {path: /llms.txt, status: 404}
+- host: https://alectrautilitiesonboarding.savagedata.com
+  role: Third-party registration and onboarding (vendor-hosted)
+  documents:
+  - {path: /.well-known/security.txt, status: 404}
+  - {path: /.well-known/openid-configuration, status: 200, content_type: text/html, real: false, note: Blazor SPA shell, see control_probes}
+  - {path: /.well-known/oauth-authorization-server, status: 200, content_type: text/html, real: false, note: Blazor SPA shell}
+  - {path: /.well-known/oauth-protected-resource, status: 200, content_type: text/html, real: false, note: Blazor SPA shell}
+  - {path: /.well-known/api-catalog, status: 200, content_type: text/html, real: false, note: Blazor SPA shell}
+  - {path: /.well-known/ai-plugin.json, status: 404}
+  - {path: /llms.txt, status: 404}
+- host: https://sandbox.greenbuttonalliance.org:8443
+  role: Green Button Alliance public sandbox (the OpenAPI servers[] host, NOT Alectra)
+  documents:
+  - {path: /.well-known/openid-configuration, status: 404}
+  - {path: /.well-known/oauth-authorization-server, status: 404}
+documents_found: 0
+security_txt: null
+oauth_metadata: null
+api_catalog: null

@@ -96,6 +96,20 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/alectra-utilities-green-button-espi-openapi.json
+  - type: Overlay
+    url: overlays/alectra-utilities-green-button-espi-overlay.yaml
+  - type: Authentication
+    url: authentication/alectra-utilities-authentication.yml
+  - type: OAuthScopes
+    url: scopes/alectra-utilities-scopes.yml
+  - type: Conventions
+    url: conventions/alectra-utilities-conventions.yml
+  - type: ErrorCatalog
+    url: errors/alectra-utilities-problem-types.yml
+  - type: DataModel
+    url: data-model/alectra-utilities-data-model.yml
+  - type: AgentSkill
+    url: skills/_index.yml
   - type: Documentation
     url: https://alectrautilities.com/green-button
   - type: Documentation
@@ -111,6 +125,18 @@ apis:
   - type: Documentation
     url: https://www.greenbuttonalliance.org/certification
 common:
+- type: DomainSecurity
+  url: security/alectra-utilities-domain-security.yml
+- type: Conformance
+  url: conformance/alectra-utilities-conformance.yml
+- type: Lifecycle
+  url: lifecycle/alectra-utilities-lifecycle.yml
+- type: Packages
+  url: packages/alectra-utilities-packages.yml
+- type: LLMsTxt
+  url: llms/alectra-utilities-llms.txt
+- type: AgentSkill
+  url: skills/_index.yml
 - type: Website
   url: https://alectrautilities.com/
 - type: Documentation
@@ -125,6 +151,14 @@ common:
   url: https://myalectra.alectrautilities.com/
 - type: Support
   url: https://myalectra.alectrautilities.com/portal/#/Help/General%20Inquiry
+- type: Blog
+  url: https://www.alectra.com/news
+- type: BlogRSS
+  url: https://alectrautilities.com/rss.xml
+- type: Newsletter
+  url: https://alectrautilities.com/newsletter
+- type: Contact
+  url: https://alectrautilities.com/contact-us
 - type: LinkedIn
   url: https://www.linkedin.com/company/alectra-utilities
 maintainers:
