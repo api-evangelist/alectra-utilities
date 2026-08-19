@@ -8,13 +8,11 @@ searched:
   - Alectra Utilities website and Green Button pages (no developer surface of any kind)
   - Both Savage Data Systems Alectra hosts (portal and onboarding) — catch-all responses only
   - Green Button Alliance GitHub organisation (57 public repositories; no MCP server)
-  note: >-
-    No official or third-party hosted MCP server exists for Alectra Utilities or for
-    the Green Button ESPI surface. The tools below are a CANDIDATE mapping derived
-    one-to-one from the operations of the Green Button Alliance ESPI contract in
-    openapi/. They are not deployed, and they could not be deployed against Alectra
-    without completing third-party registration and approval and being issued a base
-    URI and OAuth client credentials.
+  note: No official or third-party hosted MCP server exists for Alectra Utilities or for the Green Button
+    ESPI surface. The tools below are a CANDIDATE mapping derived one-to-one from the operations of the
+    Green Button Alliance ESPI contract in openapi/. They are not deployed, and they could not be deployed
+    against Alectra without completing third-party registration and approval and being issued a base URI
+    and OAuth client credentials.
 server:
   name: alectra-utilities-green-button
   transport: null
@@ -22,11 +20,11 @@ server:
   deployed: false
 auth_required:
   scheme: oauth2
-  flows: [authorizationCode, clientCredentials]
-  gate: >-
-    Third-party registration and Alectra approval at
-    https://alectrautilitiesonboarding.savagedata.com/, then per-customer consent.
-    An agent cannot self-serve onto this API.
+  flows:
+  - authorizationCode
+  - clientCredentials
+  gate: Third-party registration and Alectra approval at https://alectrautilitiesonboarding.savagedata.com/,
+    then per-customer consent. An agent cannot self-serve onto this API.
 tools:
 - name: list_application_information
   description: List Application Information registration records for third-party applications.
@@ -47,7 +45,8 @@ tools:
   path: /espi/1_1/resource/Authorization
   read_only: true
 - name: get_authorization
-  description: Retrieve a single Authorization (consent record) by id, including its status, scope and resource URIs.
+  description: Retrieve a single Authorization (consent record) by id, including its status, scope and
+    resource URIs.
   source_operation: openapi/alectra-utilities-green-button-espi-openapi.json#getAuthorization
   method: GET
   path: /espi/1_1/resource/Authorization/{authorizationId}
@@ -65,7 +64,8 @@ tools:
   path: /espi/1_1/resource/UsagePoint/{usagePointId}
   read_only: true
 - name: download_bulk_data
-  description: Request a bulk transfer of ESPI resources by bulk id. May return HTTP 202 while the batch is prepared.
+  description: Request a bulk transfer of ESPI resources by bulk id. May return HTTP 202 while the batch
+    is prepared.
   source_operation: openapi/alectra-utilities-green-button-espi-openapi.json#downloadBulkData
   method: GET
   path: /espi/1_1/resource/Batch/Bulk/{bulkId}
@@ -73,7 +73,16 @@ tools:
 agent_notes:
 - Every tool is a read; the contract exposes no write operations.
 - Responses are application/atom+xml, not JSON — an agent must parse Atom + ESPI XML.
-- Collections page with start-index (1-indexed) and max-results, and filter with published-min/published-max/updated-min/updated-max as RFC 3339 instants.
+- Collections page with start-index (1-indexed) and max-results, and filter with published-min/published-max/updated-min/updated-max
+  as RFC 3339 instants.
 - The depth parameter controls how much of the related ESPI graph is inlined.
-- A 403 usually means the customer Authorization is expired, revoked (status 0) or denied (status 2), not that the resource is missing.
-- This data is personal consumption data for an identified retail customer. Use is bound by the customer's express consent and by Alectra's Green Button Connect My Data Terms and Conditions of Access and Use.
+- A 403 usually means the customer Authorization is expired, revoked (status 0) or denied (status 2),
+  not that the resource is missing.
+- This data is personal consumption data for an identified retail customer. Use is bound by the customer's
+  express consent and by Alectra's Green Button Connect My Data Terms and Conditions of Access and Use.
+deployment:
+  mode: none
+  verified: derived
+  tools: 7
+  checked: '2026-08-12'
+  source: catalog MCP census
