@@ -54,50 +54,16 @@ description: >-
   zero open market or grid data of any kind, because in Ontario that layer
   belongs to the IESO and the OEB rather than to the distributor.
 apis:
-- aid: alectra-utilities:alectra-green-button-connect-my-data-api
-  name: Alectra Utilities Green Button Connect My Data (CMD) API
-  description: >-
-    Alectra's mandated Green Button Connect My Data service, required of every
-    Ontario electric and gas utility by Ontario Regulation 633/21 (Energy Data)
-    and implemented to the NAESB REQ.21 Energy Services Provider Interface
-    (ESPI) v3.3 standard. It lets an Alectra account holder authorise the
-    ongoing, secure transfer of their electricity usage and billing data, in the
-    standardised Green Button XML format, to a third party that Alectra has
-    approved. Access is not self-serve: a developer must complete Alectra's
-    third-party registration and onboarding at
-    https://alectrautilitiesonboarding.savagedata.com/ (HTTP 200 on 2026-07-27,
-    a Blazor application titled "3rdPartyRegistration" hosted by Alectra's data
-    custodian vendor Savage Data Systems), accept the Green Button Connect My
-    Data Terms and Conditions of Access and Use, and undertake to follow the
-    Green Button Rules and Standards at greenbuttondata.org, provide a privacy
-    policy and a cybersecurity policy to customers, and use the data only for
-    purposes the customer expressly consented to. No base URI is recorded here
-    because Alectra publishes none — the endpoint is disclosed to approved third
-    parties through onboarding. Alectra's customer Green Button portal at
-    https://alectrautilitiesgbportal.savagedata.com/ returned HTTP 200 on
-    2026-07-27 and exposes the ESPI path shape
-    /DataCustodian/espi/1_1/resource/..., but that could not be treated as
-    proof: every path on that host, including a bogus control path, HTTP 302
-    redirects to /Connect/Authorize, a customer sign-in form asking for account
-    name and phone number. The OpenAPI carried in properties[] is the Green
-    Button Alliance's own documentation of the CMD ESPI API, harvested verbatim
-    with provenance — it is the standard's contract, not Alectra's.
-  humanURL: https://alectrautilities.com/green-button-connect-my-data-terms-and-conditions-access-and-use
+- aid: alectra-utilities:alectra-utilities-applicationinformation-api
+  name: Alectra Utilities Application Information API
+  description: Application Information endpoints
+  humanURL: >-
+    https://alectrautilities.com/green-button-connect-my-data-terms-and-conditions-access-and-use
   tags:
-  - Green Button
-  - Connect My Data
-  - ESPI
-  - Energy Data
-  - Usage
-  - Billing
-  - Consent
-  - Ontario
-  - Canada
+  - ApplicationInformation
   properties:
   - type: OpenAPI
-    url: openapi/alectra-utilities-green-button-espi-openapi.json
-  - type: Overlay
-    url: overlays/alectra-utilities-green-button-espi-overlay.yaml
+    url: openapi/alectra-utilities-applicationinformation-api-openapi.yml
   - type: Authentication
     url: authentication/alectra-utilities-authentication.yml
   - type: OAuthScopes
@@ -108,12 +74,116 @@ apis:
     url: errors/alectra-utilities-problem-types.yml
   - type: DataModel
     url: data-model/alectra-utilities-data-model.yml
-  - type: AgentSkill
-    url: skills/_index.yml
   - type: Documentation
     url: https://alectrautilities.com/green-button
   - type: Documentation
-    url: https://alectrautilities.com/green-button-connect-my-data-terms-and-conditions-access-and-use
+    url: >-
+      https://alectrautilities.com/green-button-connect-my-data-terms-and-conditions-access-and-use
+  - type: PrivacyPolicy
+    url: https://alectrautilities.com/green-button-privacy-policy
+  - type: Registration
+    url: https://alectrautilitiesonboarding.savagedata.com/
+  - type: Portal
+    url: https://alectrautilitiesgbportal.savagedata.com/
+  - type: Documentation
+    url: https://www.greenbuttondata.org/cmd.html
+  - type: Documentation
+    url: https://www.greenbuttonalliance.org/certification
+- aid: alectra-utilities:alectra-utilities-authorization-api
+  name: Alectra Utilities Authorization API
+  description: Authorization endpoints
+  humanURL: >-
+    https://alectrautilities.com/green-button-connect-my-data-terms-and-conditions-access-and-use
+  tags:
+  - Authorization
+  properties:
+  - type: OpenAPI
+    url: openapi/alectra-utilities-authorization-api-openapi.yml
+  - type: Authentication
+    url: authentication/alectra-utilities-authentication.yml
+  - type: OAuthScopes
+    url: scopes/alectra-utilities-scopes.yml
+  - type: Conventions
+    url: conventions/alectra-utilities-conventions.yml
+  - type: ErrorCatalog
+    url: errors/alectra-utilities-problem-types.yml
+  - type: DataModel
+    url: data-model/alectra-utilities-data-model.yml
+  - type: Documentation
+    url: https://alectrautilities.com/green-button
+  - type: Documentation
+    url: >-
+      https://alectrautilities.com/green-button-connect-my-data-terms-and-conditions-access-and-use
+  - type: PrivacyPolicy
+    url: https://alectrautilities.com/green-button-privacy-policy
+  - type: Registration
+    url: https://alectrautilitiesonboarding.savagedata.com/
+  - type: Portal
+    url: https://alectrautilitiesgbportal.savagedata.com/
+  - type: Documentation
+    url: https://www.greenbuttondata.org/cmd.html
+  - type: Documentation
+    url: https://www.greenbuttonalliance.org/certification
+- aid: alectra-utilities:alectra-utilities-batch-api
+  name: Alectra Utilities Batch API
+  description: Batch data transfer endpoints
+  humanURL: >-
+    https://alectrautilities.com/green-button-connect-my-data-terms-and-conditions-access-and-use
+  tags:
+  - Batch
+  properties:
+  - type: OpenAPI
+    url: openapi/alectra-utilities-batch-api-openapi.yml
+  - type: Authentication
+    url: authentication/alectra-utilities-authentication.yml
+  - type: OAuthScopes
+    url: scopes/alectra-utilities-scopes.yml
+  - type: Conventions
+    url: conventions/alectra-utilities-conventions.yml
+  - type: ErrorCatalog
+    url: errors/alectra-utilities-problem-types.yml
+  - type: DataModel
+    url: data-model/alectra-utilities-data-model.yml
+  - type: Documentation
+    url: https://alectrautilities.com/green-button
+  - type: Documentation
+    url: >-
+      https://alectrautilities.com/green-button-connect-my-data-terms-and-conditions-access-and-use
+  - type: PrivacyPolicy
+    url: https://alectrautilities.com/green-button-privacy-policy
+  - type: Registration
+    url: https://alectrautilitiesonboarding.savagedata.com/
+  - type: Portal
+    url: https://alectrautilitiesgbportal.savagedata.com/
+  - type: Documentation
+    url: https://www.greenbuttondata.org/cmd.html
+  - type: Documentation
+    url: https://www.greenbuttonalliance.org/certification
+- aid: alectra-utilities:alectra-utilities-usagepoint-api
+  name: Alectra Utilities Usage Point API
+  description: Usage Point endpoints
+  humanURL: >-
+    https://alectrautilities.com/green-button-connect-my-data-terms-and-conditions-access-and-use
+  tags:
+  - UsagePoint
+  properties:
+  - type: OpenAPI
+    url: openapi/alectra-utilities-usagepoint-api-openapi.yml
+  - type: Authentication
+    url: authentication/alectra-utilities-authentication.yml
+  - type: OAuthScopes
+    url: scopes/alectra-utilities-scopes.yml
+  - type: Conventions
+    url: conventions/alectra-utilities-conventions.yml
+  - type: ErrorCatalog
+    url: errors/alectra-utilities-problem-types.yml
+  - type: DataModel
+    url: data-model/alectra-utilities-data-model.yml
+  - type: Documentation
+    url: https://alectrautilities.com/green-button
+  - type: Documentation
+    url: >-
+      https://alectrautilities.com/green-button-connect-my-data-terms-and-conditions-access-and-use
   - type: PrivacyPolicy
     url: https://alectrautilities.com/green-button-privacy-policy
   - type: Registration
@@ -125,6 +195,8 @@ apis:
   - type: Documentation
     url: https://www.greenbuttonalliance.org/certification
 common:
+- type: Overlay
+  url: overlays/alectra-utilities-green-button-espi-overlay.yaml
 - type: MCPServer
   url: mcp/alectra-utilities-mcp.yml
 - type: DomainSecurity
