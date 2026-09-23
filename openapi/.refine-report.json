@@ -1,0 +1,26 @@
+{
+  "provider": "alectra-utilities",
+  "sources": [
+    "_original/alectra-utilities-green-button-espi-openapi.json"
+  ],
+  "outputs": [
+    "alectra-utilities-applicationinformation-api-openapi.yml",
+    "alectra-utilities-authorization-api-openapi.yml",
+    "alectra-utilities-batch-api-openapi.yml",
+    "alectra-utilities-usagepoint-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "alectra-utilities-green-button-espi-openapi.json: upgraded openapi 3.0.0 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "alectra-utilities-applicationinformation-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "alectra-utilities-authorization-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "alectra-utilities-batch-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "alectra-utilities-usagepoint-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
+}
