@@ -1,0 +1,12 @@
+{
+ "url": "https://raw.githubusercontent.com/GreenButtonAlliance/OpenAPI-Green-Button-Documentation/main/green-button-openapi.json",
+ "requested_url": "https://raw.githubusercontent.com/GreenButtonAlliance/OpenAPI-Green-Button-Documentation/main/green-button-openapi.json",
+ "status": 200,
+ "content_type": "text/plain; charset=utf-8",
+ "bytes": 20894,
+ "sha256": "4e3bf17ec966820881191cc55e9142f4e3504967f562747a0539f258ccb38370",
+ "fetched_at": "2026-10-04",
+ "fetched_by": "APIEvangelist-Harvest/1.0 (+https://apievangelist.com)",
+ "match": "equivalent",
+ "note": "Re-fetched from the provider by verify-openapi-sources.py; the provider's current document describes the same operations (Jaccard 1.0), but the bytes differ, so the archive is an earlier or reformatted copy."
+}
