@@ -1,0 +1,32 @@
+edges:
+- partner_name: Arcadia
+  partner: arcadia-power
+  channel: partner-built
+  direction: partner-built
+  operations:
+  - statements
+  - statement-history
+  - web-navigation
+  - intervals
+  - interval-history
+  contract_reference:
+    list: Arcadia Plug provider coverage (public list)
+    spec_file: null
+    listed_name: Alectra Utilities
+    listed_id: prv_1e9bac4a-b021-df27-adf6-06b09971a9e0
+    matched_domain: alectrautilities.com
+    service_types:
+    - Water
+    - Sewer
+    - Electric
+    detected_by: sweep-energy.py
+    detected: '2026-10-13'
+  type: coverage
+  relationship: system-coverage
+  evidence: https://api.arcadia.com/plug/providers/public
+  detected_by: sweep-energy.py
+  first_seen: '2026-10-13'
+generated: '2026-10-13'
+method: searched
+checked:
+- https://api.arcadia.com/plug/providers/public
