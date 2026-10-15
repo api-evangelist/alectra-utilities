@@ -1,15 +1,34 @@
-generated: '2026-07-27'
-method: derived
-source: openapi/alectra-utilities-green-button-espi-openapi.json
-docs: null
-provenance_warning: >-
-  Derived from the Green Button Alliance OpenAPI harvested into openapi/, not from an
-  Alectra scopes reference. Alectra Utilities publishes no scope list, no OAuth
-  metadata and no consent-permission reference anywhere on alectrautilities.com or on
-  its Savage Data-hosted Green Button portal.
+generated: '2026-10-14'
+method: none
+source: openapi/alectra-utilities-applicationinformation-api-openapi.yml, openapi/alectra-utilities-authorization-api-openapi.yml,
+  openapi/alectra-utilities-batch-api-openapi.yml, openapi/alectra-utilities-usagepoint-api-openapi.yml
 schemes:
 - name: oauth2
-  source: openapi/alectra-utilities-green-button-espi-openapi.json
+  source: openapi/alectra-utilities-applicationinformation-api-openapi.yml
+  flows:
+  - flow: authorizationCode
+    authorizationUrl: https://sandbox.greenbuttonalliance.org:8443/oauth/authorize
+    tokenUrl: https://sandbox.greenbuttonalliance.org:8443/oauth/token
+  - flow: clientCredentials
+    tokenUrl: https://sandbox.greenbuttonalliance.org:8443/oauth/token
+- name: oauth2
+  source: openapi/alectra-utilities-authorization-api-openapi.yml
+  flows:
+  - flow: authorizationCode
+    authorizationUrl: https://sandbox.greenbuttonalliance.org:8443/oauth/authorize
+    tokenUrl: https://sandbox.greenbuttonalliance.org:8443/oauth/token
+  - flow: clientCredentials
+    tokenUrl: https://sandbox.greenbuttonalliance.org:8443/oauth/token
+- name: oauth2
+  source: openapi/alectra-utilities-batch-api-openapi.yml
+  flows:
+  - flow: authorizationCode
+    authorizationUrl: https://sandbox.greenbuttonalliance.org:8443/oauth/authorize
+    tokenUrl: https://sandbox.greenbuttonalliance.org:8443/oauth/token
+  - flow: clientCredentials
+    tokenUrl: https://sandbox.greenbuttonalliance.org:8443/oauth/token
+- name: oauth2
+  source: openapi/alectra-utilities-usagepoint-api-openapi.yml
   flows:
   - flow: authorizationCode
     authorizationUrl: https://sandbox.greenbuttonalliance.org:8443/oauth/authorize
@@ -17,18 +36,5 @@ schemes:
   - flow: clientCredentials
     tokenUrl: https://sandbox.greenbuttonalliance.org:8443/oauth/token
 scopes: []
-scope_count: 0
-finding: >-
-  The oauth2 security scheme is declared and applied to every operation, but both
-  flows carry an EMPTY scopes map in the source specification, and no operation
-  attaches a named scope in its security[] requirement. NAESB REQ.21 ESPI does define
-  a structured scope string for Connect My Data authorisations (function block,
-  interval duration and history parameters encoded into a single scope value), but
-  neither the harvested specification nor any Alectra surface enumerates one, so no
-  scope strings are recorded here. Nothing is invented.
-consent_model: >-
-  Green Button Connect My Data authorisation is per customer and per data selection:
-  the customer chooses the data and the time period in Alectra's Green Button portal,
-  and the resulting Authorization resource carries the negotiated scope, grant_type,
-  token_type and expires_at. The scope value is therefore issued at consent time by
-  the data custodian rather than published in advance as a fixed catalogue.
+note: The OAuth2 security scheme(s) in the OpenAPI declare no scopes, and no security requirement
+  references one.
