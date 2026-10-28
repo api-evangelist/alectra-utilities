@@ -1,4 +1,4 @@
-# Alectra Utilities (alectra-utilities)
+# Alectra Utilities
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -64,88 +64,116 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Alectra Utilities Corporation is Ontario's second-largest municipally owned electricity distributor and one of the largest local distribution companies (LDCs) in Canada, serving roughly one million customers across seventeen communities in the Greater Toronto and Hamilton Area and the Golden Horseshoe — Alliston, Aurora, Barrie, Beeton, Bradford West Gwillimbury, Brampton, Guelph, Hamilton, Markham, Mississauga, Penetanguishene, Richmond Hill, Rockwood, St. Catharines, Thornton, Tottenham and Vaughan. It also bills water and wastewater/stormwater on behalf of several of those municipalities, and runs the GRE&T Centre for grid innovation. It sits squarely in the wires and metering layer of the Canadian value chain: it does not generate, it does not operate the market (the IESO does), and it is owned by its municipal shareholders rather than by investors — the Crown/municipal ownership pattern that dominates Canadian electricity. Its API posture exists only because a regulator created it. Ontario Regulation 633/21 (Energy Data) requires every Ontario electric and gas utility to implement Green Button Download My Data and Connect My Data to the NAESB REQ.21 ESPI v3.3 standard and to obtain Green Button Alliance certification, with an implementation deadline of 1 November 2023. Alectra publishes a Green Button page displaying GBA Certified DMD and CMD marks, a Green Button Connect My Data Terms and Conditions of Access and Use citing O. Reg. 633/21 by name, a live customer Green Button portal, and a live third-party registration and onboarding site — all three hosted by its data custodian vendor, Savage Data Systems, not by Alectra. What Alectra does not publish is any of the things that would let an outsider verify the implementation: there is no developer portal, no API documentation, no base URI, no OpenAPI, no scopes and no OAuth metadata anywhere on alectrautilities.com or on the portal host.
+Alectra Utilities Corporation is Ontario's second-largest municipally owned electricity distributor and one of the largest local distribution companies (LDCs) in Canada, serving roughly one million customers across seventeen communities in the Greater Toronto and Hamilton Area and the Golden Horseshoe — Alliston, Aurora, Barrie, Beeton, Bradford West Gwillimbury, Brampton, Guelph, Hamilton, Markham, Mississauga, Penetanguishene, Richmond Hill, Rockwood, St. Catharines, Thornton, Tottenham and Vaughan. It also bills water and wastewater/stormwater on behalf of several of those municipalities, and runs the GRE&T Centre for grid innovation. It sits squarely in the wires and metering layer of the Canadian value chain: it does not generate, it does not operate the market (the IESO does), and it is owned by its municipal shareholders rather than by investors — the Crown/municipal ownership pattern that dominates Canadian electricity. Its API posture exists only because a regulator created it. Ontario Regulation 633/21 (Energy Data) requires every Ontario electric and gas utility to implement Green Button Download My Data and Connect My Data to the NAESB REQ.21 ESPI v3.3 standard and to obtain Green Button Alliance certification, with an implementation deadline of 1 November 2023. Alectra publishes a Green Button page displaying GBA Certified DMD and CMD marks, a Green Button Connect My Data Terms and Conditions of Access and Use citing O. Reg. 633/21 by name, a live customer Green Button portal, and a live third-party registration and onboarding site — all three hosted by its data custodian vendor, Savage Data Systems, not by Alectra. What Alectra does not publish is any of the things that would let an outsider verify the implementation: there is no developer portal, no API documentation, no base URI, no OpenAPI, no scopes and no OAuth metadata anywhere on alectrautilities.com or on the portal host. developer., developers., docs. and data.alectrautilities.com do not resolve; /developers, /api, /docs, /data, /openapi.json and /swagger.json all return HTTP 404. Every path on the Green Button portal — including a deliberately invented control path — HTTP 302 redirects to a customer sign-in, so no endpoint could be confirmed. The resulting split is the finding: a mandated consumer-data API that a third party can reach only by completing an application and being approved, and zero open market or grid data of any kind, because in Ontario that layer belongs to the IESO and the OEB rather than to the distributor.
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/alectra-utilities/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/alectra-utilities/refs/heads/main/apis.yml)
+**Areas:** Energy · Canada · Utilities · Electricity · Ontario · Green Button · Smart Metering · Energy Data · Grid · Municipal Utility · ESPI
 
-## Tags
+## Alectra Utilities on APIs.io
 
-- Energy
-- Canada
-- Utilities
-- Electricity
-- Ontario
-- Green Button
-- Smart Metering
-- Energy Data
-- Grid
-- Municipal Utility
-- ESPI
+Everything profiled for Alectra Utilities is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/alectra-utilities/](https://apis.io/providers/alectra-utilities/)** — or go straight to one of the APIs or properties below.
 
-## Timestamps
+### APIs (4)
 
-- **Created:** 2026-07-27
-- **Modified:** 2026-07-27
+- [Alectra Utilities Application Information API](https://apis.io/apis/alectra-utilities/alectra-utilities-applicationinformation-api/) — Application Information endpoints
+- [Alectra Utilities Authorization API](https://apis.io/apis/alectra-utilities/alectra-utilities-authorization-api/) — Authorization endpoints
+- [Alectra Utilities Batch API](https://apis.io/apis/alectra-utilities/alectra-utilities-batch-api/) — Batch data transfer endpoints
+- [Alectra Utilities Usage Point API](https://apis.io/apis/alectra-utilities/alectra-utilities-usagepoint-api/) — Usage Point endpoints
 
-## APIs
+### Published properties
 
-### Alectra Utilities Green Button Connect My Data (CMD) API
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-Alectra's mandated Green Button Connect My Data service, required of every Ontario electric and gas utility by Ontario Regulation 633/21 (Energy Data) and implemented to the NAESB REQ.21 Energy Services Provider Interface (ESPI) v3.3 standard. It lets an Alectra account holder authorise the ongoing, secure transfer of their electricity usage and billing data, in the standardised Green Button XML format, to a third party that Alectra has approved. Access is not self-serve: a developer must complete Alectra's third-party registration and onboarding, accept the Green Button Connect My Data Terms and Conditions of Access and Use, and undertake to follow the Green Button Rules and Standards. No base URI is recorded because Alectra publishes none — the endpoint is disclosed to approved third parties through onboarding.
+#### MCP servers (1)
 
-- **Human URL:** [https://alectrautilities.com/green-button-connect-my-data-terms-and-conditions-access-and-use](https://alectrautilities.com/green-button-connect-my-data-terms-and-conditions-access-and-use)
-- **Base URL:** not published
+Model Context Protocol servers that expose the API to agents.
 
-#### Tags
+- [alectra-utilities-green-button](https://apis.io/servers/alectra-utilities/alectra-utilities-green-button/)
 
-- Green Button
-- Connect My Data
-- ESPI
-- Energy Data
-- Usage
-- Billing
-- Consent
-- Ontario
-- Canada
+#### Collections (1)
 
-#### Properties
+Postman and Open Collection request collections.
 
-- [OpenAPI](openapi/alectra-utilities-green-button-espi-openapi.json) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Documentation](https://alectrautilities.com/green-button)
-- [Documentation](https://alectrautilities.com/green-button-connect-my-data-terms-and-conditions-access-and-use)
-- [Privacy Policy](https://alectrautilities.com/green-button-privacy-policy)
-- [Registration](https://alectrautilitiesonboarding.savagedata.com/)
-- [Portal](https://alectrautilitiesgbportal.savagedata.com/)
-- [Documentation](https://www.greenbuttondata.org/cmd.html)
-- [Documentation](https://www.greenbuttonalliance.org/certification)
+- [Green Button API Documentation](https://apis.io/collections/alectra-utilities/open-alectra-utilities-green-button-espi/)
 
-## Mandate Posture
+#### Overlays (1)
 
-| Field | Value |
-| --- | --- |
-| Mandate regime | `green-button-ontario` — Ontario Regulation 633/21 (Energy Data) |
-| Mandate status | `live-claimed-unverified` |
-| Data standard | Green Button / NAESB REQ.21 ESPI v3.3 |
-| Consumer data API | Yes — Green Button Connect My Data, consent + approval gated |
-| Market data open | No — Ontario grid and market data belongs to the IESO and the OEB |
-| Access gate | `application-approval` — third-party registration, terms acceptance, Alectra approval |
-| Auth model | OAuth 2.0 authorization code per the Green Button CMD/ESPI profile (standard's model; unverified on Alectra) |
-| Home market | Canada |
+OpenAPI overlays, including conversational phrasing for each operation.
 
-Ontario did what no other Canadian province did and what the United States never did: it made Green Button compulsory by regulation, named the standard, named the certifier and set a date. Alectra responded the way a municipally owned wires company responds to a compliance obligation — it bought the capability. Both public Green Button surfaces run on `savagedata.com` under Alectra branding. The mandate produced a service, not a product: there is a documented right to the data and a documented way to apply for it, and nothing resembling a developer experience.
+- [Alectra Utilities Green Button Espi Overlay](https://apis.io/overlays/alectra-utilities/alectra-utilities-green-button-espi-overlay/)
 
-Every path on the Green Button portal host — including a deliberately invented control path — returns HTTP 302 to a customer sign-in, so no ESPI endpoint could be confirmed. Full probe log with HTTP status for every URL is in [`review.yml`](review.yml).
+#### Security (2)
 
-## Common Properties
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Alectra Utilities Authentication](https://apis.io/security/alectra-utilities/alectra-utilities-authentication/)
+- [Alectra Utilities Domain Security](https://apis.io/security/alectra-utilities/alectra-utilities-domain-security/)
+
+#### OAuth scopes (1)
+
+The permissions the API asks for.
+
+- [Alectra Utilities Scopes](https://apis.io/scopes/alectra-utilities/alectra-utilities-scopes/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
 
 - [Website](https://alectrautilities.com/)
 - [Documentation](https://alectrautilities.com/green-button)
-- [Privacy Policy](https://alectrautilities.com/green-button-privacy-policy)
-- [Terms of Service](https://alectrautilities.com/green-button-connect-my-data-terms-and-conditions-access-and-use)
-- [Registration](https://alectrautilitiesonboarding.savagedata.com/)
-- [Portal](https://myalectra.alectrautilities.com/)
-- [LinkedIn](https://www.linkedin.com/company/alectra-utilities)
+- [Support](https://myalectra.alectrautilities.com/portal/#/Help/General%20Inquiry)
+- [Blog](https://www.alectra.com/news)
+- [Terms of service](https://alectrautilities.com/green-button-connect-my-data-terms-and-conditions-access-and-use)
+- [Privacy policy](https://alectrautilities.com/green-button-privacy-policy)
 
-## Maintainers
+## API Evangelist rating
 
-- Kin Lane — kin@apievangelist.com
+**Kin Score 27.7** — thin · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 64.3 |
+| Contract quality | 11.1 |
+| Contract governance | 4.5 |
+| Operational transparency | 0.0 |
+| Developer ergonomics | 39.9 |
+| Access clarity | 34.2 |
+
+**Agent readiness 25.6** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | — |
+| Reversibility Documented | na |
+| MCP Server | — |
+| Auth Clarity | negotiable (partial credit) |
+| Idempotency | na |
+| Error Semantics | derived (partial credit) |
+| OpenAPI Examples | — |
+| Rate Limit Signal | — |
+| Event Surface Described | — |
+| Agent Skills | derived (partial credit) |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | na |
+| Delegated Identity | documented (partial credit) |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 34.4** — Energy & Utilities
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/alectra-utilities/](https://apis.io/providers/alectra-utilities/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Alectra Utilities: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/alectra-utilities/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
